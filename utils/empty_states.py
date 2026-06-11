@@ -7,6 +7,4 @@ def show_empty_state(title, message, cta_label=None, cta_link=None):
     with col2:
         st.markdown(f"### {title}")
         st.markdown(message)
-        if cta_label and cta_link:
-            st.page_link(cta_link, label=cta_label)
     st.markdown("---")
