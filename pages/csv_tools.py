@@ -102,3 +102,5 @@ def _render_import():
 
         if imported > 0:
             st.rerun()
+
+render()

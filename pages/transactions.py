@@ -236,3 +236,5 @@ def _render_category_management(categories):
             delete_category(del_cat, reassign)
             st.success(f"Deleted category '{del_cat}'")
             st.rerun()
+
+render()
