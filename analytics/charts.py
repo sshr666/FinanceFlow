@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from config.translations import t
 
 
 def pie_chart(data, names, values, title="", color_discrete_sequence=None):
@@ -45,8 +46,8 @@ def line_chart(data, x, y, title="", color=None):
 
 def comparison_chart(data, x, y_actual, y_budget, title=""):
     fig = go.Figure()
-    fig.add_trace(go.Bar(name="Actual", x=data[x], y=data[y_actual], marker_color="#4CAF50"))
-    fig.add_trace(go.Bar(name="Budget", x=data[x], y=data[y_budget], marker_color="#FF9800"))
+    fig.add_trace(go.Bar(name=t("chart_actual"), x=data[x], y=data[y_actual], marker_color="#4CAF50"))
+    fig.add_trace(go.Bar(name=t("chart_budget"), x=data[x], y=data[y_budget], marker_color="#FF9800"))
     fig.update_layout(
         title=title,
         barmode="group",

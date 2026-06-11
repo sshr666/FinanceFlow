@@ -5,14 +5,15 @@ import io
 from database.crud import get_all_transactions, add_transaction
 from utils.validators import validate_csv_row
 from utils.empty_states import show_empty_state
+from config.translations import t
 
 
 def render():
-    st.title("📁 CSV Tools")
+    st.title(t("page_title_csv_tools"))
 
     txns = get_all_transactions()
 
-    tab1, tab2 = st.tabs(["Export", "Import"])
+    tab1, tab2 = st.tabs([t("tab_export"), t("tab_import")])
 
     with tab1:
         _render_export(txns)
@@ -22,16 +23,16 @@ def render():
 
     if not txns:
         show_empty_state(
-            "No transactions to export",
-            "Add some transactions first, then return here to export them as CSV.",
-            "Go to Transactions",
-            "/Transactions",
+            t("empty_csv_title"),
+            t("empty_csv_message"),
+            t("empty_csv_cta"),
+            t("nav_transactions"),
         )
 
 
 def _render_export(txns):
-    st.subheader("Export Transactions")
-    st.caption("Download all your transactions as a CSV file.")
+    st.subheader(t("subheader_export"))
+    st.caption(t("caption_export"))
 
     if txns:
         df = pd.DataFrame(txns)
@@ -41,36 +42,36 @@ def _render_export(txns):
         csv_data = csv_buffer.getvalue()
 
         st.download_button(
-            label="📥 Download CSV",
+            label=t("btn_download_csv"),
             data=csv_data,
             file_name="financeflow_transactions.csv",
             mime="text/csv",
             type="primary",
             use_container_width=True,
         )
-        st.success(f"Ready to export {len(txns)} transactions.")
+        st.success(t("success_export_ready", count=len(txns)))
     else:
-        st.info("No transactions to export.")
+        st.info(t("info_no_transactions_export"))
 
 
 def _render_import():
-    st.subheader("Import Transactions")
-    st.caption("Upload a CSV file to import transactions.")
-    st.markdown("**Expected columns:** `type, amount, category, date, description`")
+    st.subheader(t("subheader_import"))
+    st.caption(t("caption_import"))
+    st.markdown(t("expected_columns"))
 
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    uploaded_file = st.file_uploader(t("file_uploader_label"), type="csv")
 
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
         except Exception:
-            st.error("Could not read the CSV file. Please check the format.")
+            st.error(t("error_csv_read"))
             return
 
         required_cols = {"type", "amount", "category", "date"}
         missing = required_cols - set(df.columns.str.strip().str.lower())
         if missing:
-            st.error(f"Missing required columns: {', '.join(sorted(missing))}")
+            st.error(t("error_missing_columns", columns=", ".join(sorted(missing))))
             return
 
         df.columns = df.columns.str.strip().str.lower()
@@ -92,13 +93,13 @@ def _render_import():
                     )
                     imported += 1
                 except Exception as e:
-                    errors.append({"row": idx + 2, "errors": f"Database error: {e}"})
+                    errors.append({"row": idx + 2, "errors": t("label_database_error", error=e)})
 
-        st.success(f"✅ Successfully imported {imported} transactions.")
+        st.success(t("success_imported", count=imported))
         if errors:
-            st.warning(f"⚠️ {len(errors)} row(s) had errors:")
+            st.warning(t("warning_import_errors", count=len(errors)))
             for e in errors:
-                st.markdown(f"- Row {e['row']}: {e['errors']}")
+                st.markdown(t("label_import_error_row", row=e["row"], errors=e["errors"]))
 
         if imported > 0:
             st.rerun()

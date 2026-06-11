@@ -1,4 +1,5 @@
 import streamlit as st
+from config.translations import t
 
 
 def show_empty_state(title, message, cta_label=None, cta_link=None):
@@ -11,6 +12,6 @@ def show_empty_state(title, message, cta_label=None, cta_link=None):
         st.markdown(message)
 
         if cta_label:
-            st.info(f"👉 Use the sidebar to open {cta_label}")
+            st.info(t("use_sidebar_to_open", label=cta_label))
 
     st.markdown("---")
