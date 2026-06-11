@@ -104,11 +104,22 @@ def _render_transaction_form(txns):
                     format="%.2f",
                     value=float(editing["amount"]) if editing else 0.01,
                 )
-                cat_input = st.selectbox(
-                    "Category",
-                    options=get_all_categories(),
-                    index=_find_category_index(get_all_categories(), editing["category"]) if editing else 0,
-                )
+                categories = get_all_categories()
+
+                cat_choice = st.selectbox(
+                    "Existing Category",
+                    options=categories if categories else ["No categories available"],
+                    index=_find_category_index(categories, editing["category"]) if editing and categories else 0,
+                    disabled=not categories,
+)
+
+                new_category = st.text_input(
+                    "New Category",
+                    placeholder="Food, Rent, Travel..."
+)
+
+                cat_input = new_category.strip() if new_category.strip() else cat_choice
+                
             with col2:
                 date_val = st.date_input(
                     "Date",
