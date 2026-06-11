@@ -57,17 +57,17 @@ def _render_transaction_list(txns):
 
     if txns:
         data = []
-        for t in txns:
-            sign = "+" if t["type"] == "income" else "-"
-            amt = f"${t['amount']:,.2f}"
+        for txn in txns:
+            sign = "+" if txn["type"] == "income" else "-"
+            amt = f"${txn['amount']:,.2f}"
             data.append(
                 {
-                    "Date": t["date"],
-                    "Type": t(t["type"]).capitalize(),
-                    "Category": t["category"],
+                    "Date": txn["date"],
+                    "Type": t(txn["type"]).capitalize(),
+                    "Category": txn["category"],
                     "Amount": f"{sign}{amt}",
-                    "Description": t["description"] or "",
-                    "ID": t["id"],
+                    "Description": txn["description"] or "",
+                    "ID": txn["id"],
                 }
             )
         st.dataframe(
@@ -192,7 +192,10 @@ def _render_edit_delete_controls(txns):
     st.markdown(t("quick_actions"))
     col1, col2 = st.columns(2)
     with col1:
-        txn_ids = {f"#{t['id']} - {t['date']} {t['category']} (${t['amount']:,.2f})": t for t in txns}
+        txn_ids = {
+                        f"#{txn['id']} - {txn['date']} {txn['category']} (${txn['amount']:,.2f})": txn
+                        for txn in txns
+                    }
         if txn_ids:
             selected_label = st.selectbox(t("select_transaction_edit_delete"), options=list(txn_ids.keys()))
             selected = txn_ids[selected_label]
