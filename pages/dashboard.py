@@ -53,14 +53,14 @@ def render():
 
     with col_a:
         st.subheader(t("subheader_recent_transactions"))
-        recent = sorted(txns, key=lambda t: t["date"], reverse=True)[:10]
-        for t in recent:
+        recent = sorted(txns, key=lambda txn: txn["date"], reverse=True)[:10]
+        for txn in recent:
             sign = "+" if t["type"] == "income" else "-"
-            color = "green" if t["type"] == "income" else "red"
+            color = "green" if txn["type"] == "income" else "red"
             st.markdown(
                 f"<div style='display:flex;justify-content:space-between;padding:4px 0;'>"
-                f"<span>{t['date']} - {t['category']}</span>"
-                f"<span style='color:{color};font-weight:bold;'>{sign}${t['amount']:,.2f}</span>"
+                f"<span>{txn['date']} - {txn['category']}</span>"
+                f"<span style='color:{color};font-weight:bold;'>{sign}${txn['amount']:,.2f}</span>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
