@@ -11,19 +11,20 @@ from analytics.metrics import (
 )
 from utils.helpers import get_current_month_year
 from utils.empty_states import show_empty_state
+from config.translations import t
 
 
 def render():
-    st.title("📈 Analytics")
+    st.title(t("page_title_analytics"))
 
     txns = get_all_transactions()
 
     if not txns:
         show_empty_state(
-            "No data to analyze",
-            "Add transactions to see charts and analytics.",
-            "Go to Transactions",
-            "/Transactions",
+            t("empty_analytics_title"),
+            t("empty_analytics_message"),
+            t("empty_analytics_cta"),
+            t("nav_transactions"),
         )
         return
 
@@ -35,7 +36,7 @@ def render():
     available_months = sorted(df["date"].dt.strftime("%Y-%m").unique())
 
     selected_month = st.selectbox(
-        "Select month",
+        t("select_month"),
         options=available_months,
         index=len(available_months) - 1 if available_months else 0,
     )
@@ -49,8 +50,8 @@ def render():
             cat_df = pd.DataFrame(
                 [{"Category": k, "Amount": v} for k, v in sorted(cat_data.items(), key=lambda x: x[1], reverse=True)]
             )
-            st.subheader("Category Spending")
-            fig = pie_chart(cat_df, names="Category", values="Amount", title="Spending by Category")
+            st.subheader(t("subheader_category_spending"))
+            fig = pie_chart(cat_df, names="Category", values="Amount", title=t("chart_title_spending_by_category"))
             st.plotly_chart(fig, use_container_width=True)
 
     with col2:
@@ -63,17 +64,17 @@ def render():
                     "Expenses": [expense_dict[m] for m in months],
                 }
             )
-            st.subheader("Income vs Expenses")
+            st.subheader(t("subheader_income_vs_expenses"))
             fig = bar_chart(
                 comp_df,
                 x="Month",
                 y=["Income", "Expenses"],
-                title="Monthly Income vs Expenses",
+                title=t("chart_title_monthly_income_vs_expenses"),
                 barmode="group",
             )
             st.plotly_chart(fig, use_container_width=True)
 
-    st.subheader("Monthly Trends")
+    st.subheader(t("subheader_monthly_trends"))
     expense_monthly = monthly_totals(type_="expense")
     income_monthly = monthly_totals(type_="income")
     if expense_monthly:
@@ -83,10 +84,10 @@ def render():
                 "Spending": list(expense_monthly.values()),
             }
         ).sort_values("Month")
-        fig = line_chart(trend_df, x="Month", y="Spending", title="Monthly Spending Trend")
+        fig = line_chart(trend_df, x="Month", y="Spending", title=t("chart_title_monthly_spending_trend"))
         st.plotly_chart(fig, use_container_width=True)
 
-    st.subheader("Budget Utilization")
+    st.subheader(t("subheader_budget_utilization"))
     budget_results = budget_vs_actual(sel_month, sel_year)
     if budget_results:
         bud_df = pd.DataFrame(budget_results)
@@ -94,11 +95,11 @@ def render():
             bud_df,
             x="category",
             y=["actual", "limit"],
-            title=f"Budget vs Actual ({selected_month})",
+            title=t("chart_title_budget_vs_actual", month=selected_month),
             barmode="group",
         )
         st.plotly_chart(fig, use_container_width=True)
     else:
-        st.info("No budgets set for the selected month. Go to Budgets page to create one.")
+        st.info(t("info_no_budgets_analytics"))
 
 render()

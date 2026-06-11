@@ -6,20 +6,20 @@ from database.crud import get_all_transactions
 from analytics.charts import line_chart
 from utils.helpers import get_current_month_year
 from utils.empty_states import show_empty_state
+from config.translations import t
 
 
 def render():
-    st.title("📊 Dashboard")
+    st.title(t("page_title_dashboard"))
 
     txns = get_all_transactions()
 
     if not txns:
         show_empty_state(
-            "Welcome to FinanceFlow!",
-            "Start tracking your finances by adding your first transaction. "
-            "Visit the Transactions page to get started.",
-            "Go to Transactions",
-            "/Transactions",
+            t("empty_dashboard_title"),
+            t("empty_dashboard_message"),
+            t("empty_dashboard_cta"),
+            t("nav_transactions"),
         )
         return
 
@@ -40,19 +40,19 @@ def render():
 
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Total Balance", f"${balance:,.2f}")
+        st.metric(t("metric_total_balance"), f"${balance:,.2f}")
     with col2:
-        st.metric("Monthly Income", f"${income:,.2f}")
+        st.metric(t("metric_monthly_income"), f"${income:,.2f}")
     with col3:
-        st.metric("Monthly Spending", f"${expenses:,.2f}")
+        st.metric(t("metric_monthly_spending"), f"${expenses:,.2f}")
     with col4:
         delta = savings
-        st.metric("Monthly Savings", f"${savings:,.2f}", delta=f"${delta:,.2f}")
+        st.metric(t("metric_monthly_savings"), f"${savings:,.2f}", delta=f"${delta:,.2f}")
 
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.subheader("Recent Transactions")
+        st.subheader(t("subheader_recent_transactions"))
         recent = sorted(txns, key=lambda t: t["date"], reverse=True)[:10]
         for t in recent:
             sign = "+" if t["type"] == "income" else "-"
@@ -66,7 +66,7 @@ def render():
             )
 
     with col_b:
-        st.subheader("Monthly Spending Trend")
+        st.subheader(t("subheader_monthly_spending_trend"))
         df["month"] = df["date"].dt.strftime("%Y-%m")
         daily_expense = (
             df[df["type"] == "expense"]
@@ -80,10 +80,10 @@ def render():
                 daily_expense.tail(30),
                 x="date",
                 y="amount",
-                title="Daily Expenses (Last 30 days)",
+                title=t("chart_title_daily_expenses"),
             )
             st.plotly_chart(fig, use_container_width=True)
         else:
-            st.info("No expense data to show trend.")
+            st.info(t("info_no_expense_data"))
 
 render()

@@ -14,19 +14,20 @@ from analytics.insights import (
 from analytics.metrics import budget_vs_actual
 from utils.helpers import get_current_month_year
 from utils.empty_states import show_empty_state
+from config.translations import t
 
 
 def render():
-    st.title("💡 Insights")
+    st.title(t("page_title_insights"))
 
     txns = get_all_transactions()
 
     if not txns:
         show_empty_state(
-            "Not enough data",
-            "Track transactions for at least one month to see spending insights.",
-            "Go to Transactions",
-            "/Transactions",
+            t("empty_insights_title"),
+            t("empty_insights_message"),
+            t("empty_insights_cta"),
+            t("nav_transactions"),
         )
         return
 
@@ -35,43 +36,44 @@ def render():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("💳 Spending Patterns")
+        st.subheader(t("subheader_spending_patterns"))
         top_cat = highest_spending_category()
         if top_cat:
-            st.metric("Highest Spending Category", top_cat)
+            st.metric(t("metric_highest_spending_category"), top_cat)
 
         avg_spend = average_monthly_spend()
-        st.metric("Average Monthly Spend", f"${avg_spend:,.2f}")
+        st.metric(t("metric_average_monthly_spend"), f"${avg_spend:,.2f}")
 
         change = month_over_month_change()
         if change is not None:
             delta = f"{change}%"
-            st.metric("Month-over-Month Change", f"{change:+.1f}%", delta=delta)
+            st.metric(t("metric_month_over_month_change"), f"{change:+.1f}%", delta=delta)
         else:
-            st.metric("Month-over-Month Change", "N/A (need 2+ months)")
+            st.metric(t("metric_month_over_month_change"), t("na_need_more_months"))
 
     with col2:
-        st.subheader("💰 Savings & Trends")
+        st.subheader(t("subheader_savings_trends"))
         s_rate = savings_rate()
-        st.metric("Savings Rate", f"{s_rate}%")
+        st.metric(t("metric_savings_rate"), f"{s_rate}%")
 
         direction = spending_trend_direction()
+        trend_labels = {"increasing": t("trend_increasing"), "decreasing": t("trend_decreasing"), "stable": t("trend_stable")}
         emoji = {"increasing": "📈", "decreasing": "📉", "stable": "➡️"}
-        st.metric("Spending Trend", f"{emoji.get(direction, '➡️')} {direction.capitalize()}")
+        st.metric(t("metric_spending_trend"), f"{emoji.get(direction, '➡️')} {trend_labels.get(direction, direction).capitalize()}")
 
         target = get_savings_target()
-        st.metric("Savings Target", f"${target:,.2f}/month" if target > 0 else "Not set")
+        st.metric(t("metric_savings_target"), f"${target:,.2f}/month" if target > 0 else t("label_not_set"))
 
     st.divider()
 
-    st.subheader("🎯 Savings Goal")
+    st.subheader(t("subheader_savings_goal"))
     col_a, col_b = st.columns([2, 1])
     with col_a:
-        new_target = st.number_input("Set monthly savings target ($)", min_value=0.0, format="%.2f", value=target)
+        new_target = st.number_input(t("form_savings_target"), min_value=0.0, format="%.2f", value=target)
     with col_b:
-        if st.button("Save Target", type="primary"):
+        if st.button(t("btn_save_target"), type="primary"):
             set_setting("savings_target", str(new_target))
-            st.success(f"Savings target set to ${new_target:,.2f}")
+            st.success(t("success_target_set", target=new_target))
             st.rerun()
 
     if target > 0 and txns:
@@ -82,23 +84,22 @@ def render():
         saved = total_income - total_expenses
         progress = min(saved / target, 1.0) if target > 0 else 0
         st.progress(progress)
-        st.markdown(f"**Saved:** ${saved:,.2f} / **Target:** ${target:,.2f}")
+        st.markdown(t("label_saved_vs_target", saved=saved, target=target))
 
     st.divider()
 
-    st.subheader("🚨 Budget Alerts")
+    st.subheader(t("subheader_budget_alerts"))
     budget_results = budget_vs_actual(month, year)
     if budget_results:
         for r in budget_results:
             if r["percentage"] >= 80:
-                emoji = "🔴" if r["percentage"] >= 100 else "🟠"
                 st.warning(
-                    f"{emoji} **{r['category']}**: {r['percentage']}% used "
+                    f"{'🔴' if r['percentage'] >= 100 else '🟠'} **{r['category']}**: {r['percentage']}% used "
                     f"(${r['actual']:,.2f} / ${r['limit']:,.2f})"
                 )
         if not any(r["percentage"] >= 80 for r in budget_results):
-            st.success("✅ All budgets are within limits!")
+            st.success(t("success_all_budgets_within_limits"))
     else:
-        st.info("No budgets set. Go to Budgets page to create spending limits.")
+        st.info(t("info_no_budgets_insights"))
 
 render()

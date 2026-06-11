@@ -6,15 +6,16 @@ from analytics.metrics import budget_vs_actual
 from config.settings import get_config_int
 from utils.helpers import get_current_month_year
 from utils.empty_states import show_empty_state
+from config.translations import t
 
 
 def render():
-    st.title("🎯 Budgets")
+    st.title(t("page_title_budgets"))
 
     month, year = get_current_month_year()
     txns = get_all_transactions()
 
-    tab1, tab2 = st.tabs(["Budget Overview", "Manage Budgets"])
+    tab1, tab2 = st.tabs([t("tab_budget_overview"), t("tab_manage_budgets")])
 
     with tab1:
         _render_budget_overview(month, year)
@@ -25,21 +26,21 @@ def render():
     budgets = get_budgets(month=month, year=year)
     if not budgets:
         show_empty_state(
-            "No budgets set",
-            "Create monthly budgets to track your spending limits.",
-            "Set a Budget",
-            "/Budgets",
+            t("empty_budgets_title"),
+            t("empty_budgets_message"),
+            t("empty_budgets_cta"),
+            t("nav_budgets"),
         )
 
 
 def _render_budget_overview(month, year):
-    st.subheader(f"Budget Overview - {datetime(year, month, 1).strftime('%B %Y')}")
+    st.subheader(t("subheader_budget_overview", date=datetime(year, month, 1).strftime('%B %Y')))
 
     results = budget_vs_actual(month, year)
     threshold = get_config_int("BUDGET_ALERT_THRESHOLD", 80)
 
     if not results:
-        st.info("No budgets configured for this month.")
+        st.info(t("info_no_budgets_month"))
         return
 
     for r in results:
@@ -60,37 +61,37 @@ def _render_budget_overview(month, year):
             remaining = r["limit"] - r["actual"]
             st.progress(min(pct / 100, 1.0))
             if remaining < 0:
-                st.markdown(f'<span class="budget-alert-danger">${abs(remaining):,.2f} over</span>', unsafe_allow_html=True)
+                st.markdown(f'<span class="budget-alert-danger">${abs(remaining):,.2f} {t("label_over_suffix")}</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f"${remaining:,.2f} remaining")
+                st.markdown(f"${remaining:,.2f} {t('label_remaining_suffix')}")
         if pct >= 100:
-            st.warning(f"⚠️ {r['category']} budget exceeded! Limit: ${r['limit']:,.2f}, Spent: ${r['actual']:,.2f}")
+            st.warning(t("warning_budget_exceeded", category=r['category'], limit=r['limit'], actual=r['actual']))
         elif pct >= threshold:
-            st.warning(f"⚡ {r['category']} nearing limit ({pct}% used)")
+            st.warning(t("warning_budget_nearing", category=r['category'], pct=pct))
         st.divider()
 
 
 def _render_budget_management(month, year):
-    st.subheader("Add / Edit Budget")
+    st.subheader(t("subheader_add_edit_budget"))
 
     with st.form("budget_form"):
         col1, col2 = st.columns(2)
         with col1:
-            category = st.text_input("Category name", placeholder="e.g., Food")
-            limit_amount = st.number_input("Monthly limit ($)", min_value=0.01, format="%.2f")
+            category = st.text_input(t("form_category_name"), placeholder=t("placeholder_category_name"))
+            limit_amount = st.number_input(t("form_monthly_limit"), min_value=0.01, format="%.2f")
         with col2:
-            sel_month = st.selectbox("Month", range(1, 13), index=month - 1)
-            sel_year = st.number_input("Year", min_value=2020, max_value=2100, value=year)
+            sel_month = st.selectbox(t("form_month"), range(1, 13), index=month - 1)
+            sel_year = st.number_input(t("form_year"), min_value=2020, max_value=2100, value=year)
 
-        if st.form_submit_button("💾 Save Budget", type="primary", use_container_width=True):
+        if st.form_submit_button(t("btn_save_budget"), type="primary", use_container_width=True):
             if category and limit_amount > 0:
                 set_budget(category.strip(), sel_month, sel_year, limit_amount)
-                st.success(f"Budget saved for '{category}' - ${limit_amount:,.2f}/month")
+                st.success(t("success_budget_saved", category=category, limit=limit_amount))
                 st.rerun()
             else:
-                st.error("Category name and positive limit are required.")
+                st.error(t("error_budget_required"))
 
-    st.subheader("Existing Budgets")
+    st.subheader(t("subheader_existing_budgets"))
     budgets = get_budgets(month=month, year=year)
     if budgets:
         for b in budgets:
@@ -98,7 +99,7 @@ def _render_budget_management(month, year):
             with c1:
                 st.write(f"**{b['category']}**")
             with c2:
-                st.write(f"${b['limit_amount']:,.2f}/month")
+                st.write(f"${b['limit_amount']:,.2f}{t('per_month')}")
             with c3:
                 if st.button("🗑️", key=f"del_budget_{b['id']}"):
                     delete_budget(b["id"])
