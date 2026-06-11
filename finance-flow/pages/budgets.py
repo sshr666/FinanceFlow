@@ -45,30 +45,31 @@ def _render_budget_overview(month, year):
 
     for r in results:
         pct = r["percentage"]
+        st.markdown('<div class="budget-card">', unsafe_allow_html=True)
         col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
         with col1:
-            st.markdown(f"**{r['category']}**")
+            st.markdown(f'<span class="budget-category">{r["category"]}</span>', unsafe_allow_html=True)
         with col2:
-            st.markdown(f"${r['actual']:,.2f} / ${r['limit']:,.2f}")
+            st.markdown(f'<span class="budget-spend">${r["actual"]:,.2f} / ${r["limit"]:,.2f}</span>', unsafe_allow_html=True)
         with col3:
             if pct >= 100:
                 st.markdown(f'<span class="budget-alert-danger">{pct}%</span>', unsafe_allow_html=True)
             elif pct >= threshold:
                 st.markdown(f'<span class="budget-alert-warning">{pct}%</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f"{pct}%")
+                st.markdown(f'<span style="color:#94a3b8;font-weight:600;font-size:0.9rem;">{pct}%</span>', unsafe_allow_html=True)
         with col4:
             remaining = r["limit"] - r["actual"]
             st.progress(min(pct / 100, 1.0))
             if remaining < 0:
                 st.markdown(f'<span class="budget-alert-danger">${abs(remaining):,.2f} {t("label_over_suffix")}</span>', unsafe_allow_html=True)
             else:
-                st.markdown(f"${remaining:,.2f} {t('label_remaining_suffix')}")
+                st.markdown(f'<span style="color:#94a3b8;font-size:0.85rem;">${remaining:,.2f} {t("label_remaining_suffix")}</span>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
         if pct >= 100:
             st.warning(t("warning_budget_exceeded", category=r['category'], limit=r['limit'], actual=r['actual']))
         elif pct >= threshold:
             st.warning(t("warning_budget_nearing", category=r['category'], pct=pct))
-        st.divider()
 
 
 def _render_budget_management(month, year):
