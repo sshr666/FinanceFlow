@@ -15,8 +15,8 @@ venv/
 .streamlit/secrets.toml
 
 # Database
-*.db
-*.sqlite
+#*.db
+#*.sqlite
 
 # IDE
 .vscode/

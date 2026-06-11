@@ -85,3 +85,5 @@ def render():
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("No expense data to show trend.")
+
+render()

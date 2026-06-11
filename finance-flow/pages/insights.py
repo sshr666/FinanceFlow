@@ -100,3 +100,5 @@ def render():
             st.success("✅ All budgets are within limits!")
     else:
         st.info("No budgets set. Go to Budgets page to create spending limits.")
+
+render()

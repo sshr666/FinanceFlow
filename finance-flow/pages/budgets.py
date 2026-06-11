@@ -103,3 +103,5 @@ def _render_budget_management(month, year):
                 if st.button("🗑️", key=f"del_budget_{b['id']}"):
                     delete_budget(b["id"])
                     st.rerun()
+
+render()
