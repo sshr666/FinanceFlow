@@ -12,6 +12,7 @@ from analytics.insights import (
     get_savings_target,
 )
 from analytics.metrics import budget_vs_actual
+from analytics.ai_insights import get_ai_insights
 from utils.helpers import get_current_month_year
 from utils.empty_states import show_empty_state
 from config.translations import t
@@ -101,5 +102,19 @@ def render():
             st.success(t("success_all_budgets_within_limits"))
     else:
         st.info(t("info_no_budgets_insights"))
+
+    st.divider()
+
+    st.subheader("🤖 AI Insights")
+    st.caption("Get AI-powered financial recommendations based on your transaction data. Uses local Ollama (phi3:mini).")
+
+    if st.button("✨ Generate AI Insights", type="secondary", use_container_width=True):
+        with st.spinner("Analyzing your transactions with AI..."):
+            insights, error = get_ai_insights(txns)
+        if error:
+            st.warning(f"⚠️ {error}")
+        else:
+            st.success("✅ AI analysis complete!")
+            st.markdown(insights)
 
 render()
