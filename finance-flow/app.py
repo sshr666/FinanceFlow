@@ -59,7 +59,6 @@ else:
         t("nav_transactions"): st.Page("pages/transactions.py", title=t("nav_transactions"), icon="💳"),
         t("nav_analytics"): st.Page("pages/analytics.py", title=t("nav_analytics"), icon="📈"),
         t("nav_budgets"): st.Page("pages/budgets.py", title=t("nav_budgets"), icon="🎯"),
-        t("nav_reviews"): st.Page("pages/reviews.py", title=t("nav_reviews"), icon="⭐"),
         t("nav_csv_tools"): st.Page("pages/csv_tools.py", title=t("nav_csv_tools"), icon="📁"),
         t("nav_insights"): st.Page("pages/insights.py", title=t("nav_insights"), icon="💡"),
     }
