@@ -5,14 +5,24 @@ from database.connection import get_session
 from database.models import Transaction, Budget, Settings
 
 
-@st.cache_data(ttl=10)
+def _current_user_id():
+    return st.session_state.get("user_id", 0)
+
+
 def get_all_transactions():
+    user_id = _current_user_id()
     session = get_session()
     try:
-        txns = session.query(Transaction).order_by(Transaction.date.desc(), Transaction.id.desc()).all()
+        txns = (
+            session.query(Transaction)
+            .filter(Transaction.user_id == user_id)
+            .order_by(Transaction.date.desc(), Transaction.id.desc())
+            .all()
+        )
         return [
             {
                 "id": t.id,
+                "user_id": t.user_id,
                 "type": t.type,
                 "amount": t.amount,
                 "category": t.category,
@@ -26,15 +36,20 @@ def get_all_transactions():
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_transaction_by_id(txn_id):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        t = session.query(Transaction).filter(Transaction.id == txn_id).first()
+        t = (
+            session.query(Transaction)
+            .filter(Transaction.id == txn_id, Transaction.user_id == user_id)
+            .first()
+        )
         if t is None:
             return None
         return {
             "id": t.id,
+            "user_id": t.user_id,
             "type": t.type,
             "amount": t.amount,
             "category": t.category,
@@ -47,9 +62,11 @@ def get_transaction_by_id(txn_id):
 
 
 def add_transaction(type, amount, category, date, description=None):
+    user_id = _current_user_id()
     session = get_session()
     try:
         txn = Transaction(
+            user_id=user_id,
             type=type,
             amount=amount,
             category=category,
@@ -66,9 +83,14 @@ def add_transaction(type, amount, category, date, description=None):
 
 
 def update_transaction(txn_id, type_=None, amount=None, category=None, date=None, description=None):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        txn = session.query(Transaction).filter(Transaction.id == txn_id).first()
+        txn = (
+            session.query(Transaction)
+            .filter(Transaction.id == txn_id, Transaction.user_id == user_id)
+            .first()
+        )
         if txn is None:
             return False
         if type_ is not None:
@@ -89,9 +111,14 @@ def update_transaction(txn_id, type_=None, amount=None, category=None, date=None
 
 
 def delete_transaction(txn_id):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        txn = session.query(Transaction).filter(Transaction.id == txn_id).first()
+        txn = (
+            session.query(Transaction)
+            .filter(Transaction.id == txn_id, Transaction.user_id == user_id)
+            .first()
+        )
         if txn is None:
             return False
         session.delete(txn)
@@ -102,19 +129,24 @@ def delete_transaction(txn_id):
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_transactions_by_date_range(start_date, end_date):
+    user_id = _current_user_id()
     session = get_session()
     try:
         txns = (
             session.query(Transaction)
-            .filter(Transaction.date >= start_date, Transaction.date <= end_date)
+            .filter(
+                Transaction.user_id == user_id,
+                Transaction.date >= start_date,
+                Transaction.date <= end_date,
+            )
             .order_by(Transaction.date.desc())
             .all()
         )
         return [
             {
                 "id": t.id,
+                "user_id": t.user_id,
                 "type": t.type,
                 "amount": t.amount,
                 "category": t.category,
@@ -128,19 +160,23 @@ def get_transactions_by_date_range(start_date, end_date):
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_transactions_by_category(category):
+    user_id = _current_user_id()
     session = get_session()
     try:
         txns = (
             session.query(Transaction)
-            .filter(Transaction.category == category)
+            .filter(
+                Transaction.user_id == user_id,
+                Transaction.category == category,
+            )
             .order_by(Transaction.date.desc())
             .all()
         )
         return [
             {
                 "id": t.id,
+                "user_id": t.user_id,
                 "type": t.type,
                 "amount": t.amount,
                 "category": t.category,
@@ -154,11 +190,16 @@ def get_transactions_by_category(category):
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_all_categories():
+    user_id = _current_user_id()
     session = get_session()
     try:
-        rows = session.query(Transaction.category).distinct().all()
+        rows = (
+            session.query(Transaction.category)
+            .filter(Transaction.user_id == user_id)
+            .distinct()
+            .all()
+        )
         return sorted([r[0] for r in rows if r[0]])
     finally:
         session.close()
@@ -169,14 +210,17 @@ def add_category(name):
 
 
 def rename_category(old_name, new_name):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        session.query(Transaction).filter(Transaction.category == old_name).update(
-            {Transaction.category: new_name}
-        )
-        session.query(Budget).filter(Budget.category == old_name).update(
-            {Budget.category: new_name}
-        )
+        session.query(Transaction).filter(
+            Transaction.user_id == user_id,
+            Transaction.category == old_name,
+        ).update({Transaction.category: new_name})
+        session.query(Budget).filter(
+            Budget.user_id == user_id,
+            Budget.category == old_name,
+        ).update({Budget.category: new_name})
         session.commit()
         _clear_cache()
     finally:
@@ -184,13 +228,18 @@ def rename_category(old_name, new_name):
 
 
 def delete_category(name, reassign_to=None):
+    user_id = _current_user_id()
     session = get_session()
     try:
         target = reassign_to if reassign_to else "Other"
-        session.query(Transaction).filter(Transaction.category == name).update(
-            {Transaction.category: target}
-        )
-        session.query(Budget).filter(Budget.category == name).delete()
+        session.query(Transaction).filter(
+            Transaction.user_id == user_id,
+            Transaction.category == name,
+        ).update({Transaction.category: target})
+        session.query(Budget).filter(
+            Budget.user_id == user_id,
+            Budget.category == name,
+        ).delete()
         session.commit()
         _clear_cache()
     finally:
@@ -198,11 +247,13 @@ def delete_category(name, reassign_to=None):
 
 
 def set_budget(category, month, year, limit_amount):
+    user_id = _current_user_id()
     session = get_session()
     try:
         existing = (
             session.query(Budget)
             .filter(
+                Budget.user_id == user_id,
                 Budget.category == category,
                 Budget.month == month,
                 Budget.year == year,
@@ -212,7 +263,13 @@ def set_budget(category, month, year, limit_amount):
         if existing:
             existing.limit_amount = limit_amount
         else:
-            b = Budget(category=category, month=month, year=year, limit_amount=limit_amount)
+            b = Budget(
+                user_id=user_id,
+                category=category,
+                month=month,
+                year=year,
+                limit_amount=limit_amount,
+            )
             session.add(b)
         session.commit()
         _clear_cache()
@@ -220,11 +277,11 @@ def set_budget(category, month, year, limit_amount):
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_budgets(month=None, year=None):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        query = session.query(Budget)
+        query = session.query(Budget).filter(Budget.user_id == user_id)
         if month is not None:
             query = query.filter(Budget.month == month)
         if year is not None:
@@ -233,6 +290,7 @@ def get_budgets(month=None, year=None):
         return [
             {
                 "id": b.id,
+                "user_id": b.user_id,
                 "category": b.category,
                 "month": b.month,
                 "year": b.year,
@@ -245,9 +303,14 @@ def get_budgets(month=None, year=None):
 
 
 def delete_budget(budget_id):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        b = session.query(Budget).filter(Budget.id == budget_id).first()
+        b = (
+            session.query(Budget)
+            .filter(Budget.id == budget_id, Budget.user_id == user_id)
+            .first()
+        )
         if b:
             session.delete(b)
             session.commit()
@@ -259,22 +322,32 @@ def delete_budget(budget_id):
 
 
 def get_setting(key, default=None):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        s = session.query(Settings).filter(Settings.key == key).first()
+        s = (
+            session.query(Settings)
+            .filter(Settings.user_id == user_id, Settings.key == key)
+            .first()
+        )
         return s.value if s else default
     finally:
         session.close()
 
 
 def set_setting(key, value):
+    user_id = _current_user_id()
     session = get_session()
     try:
-        existing = session.query(Settings).filter(Settings.key == key).first()
+        existing = (
+            session.query(Settings)
+            .filter(Settings.user_id == user_id, Settings.key == key)
+            .first()
+        )
         if existing:
             existing.value = value
         else:
-            s = Settings(key=key, value=value)
+            s = Settings(user_id=user_id, key=key, value=value)
             session.add(s)
         session.commit()
         _clear_cache()
@@ -282,21 +355,19 @@ def set_setting(key, value):
         session.close()
 
 
-@st.cache_data(ttl=10)
 def get_all_settings():
+    user_id = _current_user_id()
     session = get_session()
     try:
-        rows = session.query(Settings).all()
+        rows = (
+            session.query(Settings)
+            .filter(Settings.user_id == user_id)
+            .all()
+        )
         return {r.key: r.value for r in rows}
     finally:
         session.close()
 
 
 def _clear_cache():
-    get_all_transactions.clear()
-    get_transaction_by_id.clear()
-    get_transactions_by_date_range.clear()
-    get_transactions_by_category.clear()
-    get_all_categories.clear()
-    get_budgets.clear()
-    get_all_settings.clear()
+    pass

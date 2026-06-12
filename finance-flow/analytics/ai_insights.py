@@ -1,6 +1,7 @@
 import json
 import requests
 import pandas as pd
+from analytics.translator import translate
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "mistral:latest"
@@ -48,7 +49,7 @@ Average Monthly Income: ${monthly_income.mean():,.2f}
     return summary
 
 
-def get_ai_insights(txns):
+def get_ai_insights(txns, lang="en"):
     summary = generate_transaction_summary(txns)
     if summary is None:
         return None, "No transaction data available to generate insights."
@@ -77,7 +78,6 @@ Keep the response brief, friendly, and under 200 words. Do not use markdown form
         text = result.get("response", "").strip()
         if not text:
             return None, "Ollama returned an empty response."
-        return text, None
     except requests.exceptions.ConnectionError:
         return None, "Could not connect to Ollama. Make sure Ollama is running locally (http://localhost:11434)."
     except requests.exceptions.Timeout:
@@ -86,3 +86,10 @@ Keep the response brief, friendly, and under 200 words. Do not use markdown form
         return None, f"Ollama request failed: {e}"
     except (json.JSONDecodeError, KeyError) as e:
         return None, f"Failed to parse Ollama response: {e}"
+
+    if lang != "en":
+        translated, t_err = translate(text, lang)
+        if translated:
+            return translated, None
+
+    return text, None

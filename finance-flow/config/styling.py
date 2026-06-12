@@ -287,6 +287,42 @@ def apply_theme():
             color: #64748b !important;
         }
 
+        /* --- Review Cards --- */
+        .review-card {
+            background-color: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .review-card:hover {
+            border-color: #374151;
+        }
+        .review-card .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .review-card .review-username {
+            color: #f1f5f9;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .review-card .review-date {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .review-card .review-stars {
+            font-size: 1.2rem;
+            margin: 4px 0;
+        }
+        .review-card .review-comment {
+            color: #e2e8f0;
+            margin: 8px 0 0 0;
+            line-height: 1.5;
+        }
+
         /* --- Transaction List (Dashboard) --- */
         .transaction-item {
             padding: 8px 0;
