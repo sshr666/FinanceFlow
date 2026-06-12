@@ -43,16 +43,6 @@ class Budget(Base):
     )
 
 
-class Review(Base):
-    __tablename__ = "reviews"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(Text, nullable=False)
-    rating = Column(Integer, nullable=False)
-    comment = Column(Text, nullable=False)
-    created_at = Column(Text, nullable=False)
-
-
 class Settings(Base):
     __tablename__ = "settings"
 

@@ -9,8 +9,6 @@ TRANSLATIONS = {
         "nav_budgets": "Budgets",
         "nav_csv_tools": "CSV Tools",
         "nav_insights": "Insights",
-        "nav_reviews": "⭐ Community Reviews",
-
         # Language selector
         "lang_label": "Language",
         "lang_en": "English",
@@ -24,8 +22,6 @@ TRANSLATIONS = {
         "page_title_budgets": "🎯 Budgets",
         "page_title_csv_tools": "📁 CSV Tools",
         "page_title_insights": "💡 Insights",
-        "page_title_reviews": "⭐ Community Reviews",
-
         # Dashboard metrics
         "metric_total_balance": "Total Balance",
         "metric_monthly_income": "Monthly Income",
@@ -206,27 +202,6 @@ TRANSLATIONS = {
         # Empty state component
         "use_sidebar_to_open": "👉 Use the sidebar to open {label}",
 
-        # Generic
-        "reviews_average_rating": "Average Rating",
-        "reviews_total_reviews": "Total Reviews",
-        "reviews_recent": "Recent Reviews",
-        "reviews_leave": "Leave a Review",
-        "reviews_name": "Your Name",
-        "reviews_rating": "Rating",
-        "reviews_comment": "Your Comment",
-        "reviews_submit": "Submit Review",
-        "reviews_comment_limit": "Comment limit: 500 characters",
-        "reviews_name_required": "Name is required",
-        "reviews_rating_required": "Please select a rating",
-        "reviews_comment_required": "Comment is required",
-        "reviews_comment_too_long": "Comment must be under 500 characters",
-        "reviews_success": "Review submitted successfully!",
-        "reviews_error": "Failed to submit review. Please try again.",
-        "reviews_no_reviews": "No reviews yet. Be the first!",
-        "reviews_star": "star",
-        "reviews_stars": "stars",
-        "reviews_out_of": "{rating} / 5",
-
         "income": "income",
         "expense": "expense",
     },
@@ -238,8 +213,6 @@ TRANSLATIONS = {
         "nav_budgets": "बजट",
         "nav_csv_tools": "CSV उपकरण",
         "nav_insights": "अंतर्दृष्टि",
-        "nav_reviews": "⭐ सामुदायिक समीक्षाएँ",
-
         "lang_label": "भाषा",
         "lang_en": "अंग्रेज़ी",
         "lang_hi": "हिंदी",
@@ -251,8 +224,6 @@ TRANSLATIONS = {
         "page_title_budgets": "🎯 बजट",
         "page_title_csv_tools": "📁 CSV उपकरण",
         "page_title_insights": "💡 अंतर्दृष्टि",
-        "page_title_reviews": "⭐ सामुदायिक समीक्षाएँ",
-
         "metric_total_balance": "कुल शेष",
         "metric_monthly_income": "मासिक आय",
         "metric_monthly_spending": "मासिक खर्च",
@@ -421,26 +392,6 @@ TRANSLATIONS = {
 
         "use_sidebar_to_open": "👉 {label} खोलने के लिए साइडबार का उपयोग करें",
 
-        "reviews_average_rating": "औसत रेटिंग",
-        "reviews_total_reviews": "कुल समीक्षाएँ",
-        "reviews_recent": "हाल की समीक्षाएँ",
-        "reviews_leave": "समीक्षा लिखें",
-        "reviews_name": "आपका नाम",
-        "reviews_rating": "रेटिंग",
-        "reviews_comment": "आपकी टिप्पणी",
-        "reviews_submit": "समीक्षा सबमिट करें",
-        "reviews_comment_limit": "टिप्पणी सीमा: 500 अक्षर",
-        "reviews_name_required": "नाम आवश्यक है",
-        "reviews_rating_required": "कृपया रेटिंग चुनें",
-        "reviews_comment_required": "टिप्पणी आवश्यक है",
-        "reviews_comment_too_long": "टिप्पणी 500 अक्षरों से कम होनी चाहिए",
-        "reviews_success": "समीक्षा सफलतापूर्वक सबमिट की गई!",
-        "reviews_error": "समीक्षा सबमिट करने में विफल। कृपया पुनः प्रयास करें।",
-        "reviews_no_reviews": "अभी तक कोई समीक्षा नहीं। पहली समीक्षा लिखें!",
-        "reviews_star": "स्टार",
-        "reviews_stars": "स्टार",
-        "reviews_out_of": "{rating} / 5",
-
         "income": "आय",
         "expense": "व्यय",
     },
@@ -452,8 +403,6 @@ TRANSLATIONS = {
         "nav_budgets": "బడ్జెట్‌లు",
         "nav_csv_tools": "CSV సాధనాలు",
         "nav_insights": "అంతర్దృష్టులు",
-        "nav_reviews": "⭐ కమ్యూనిటీ సమీక్షలు",
-
         "lang_label": "భాష",
         "lang_en": "ఆంగ్లం",
         "lang_hi": "హిందీ",
@@ -465,8 +414,6 @@ TRANSLATIONS = {
         "page_title_budgets": "🎯 బడ్జెట్‌లు",
         "page_title_csv_tools": "📁 CSV సాధనాలు",
         "page_title_insights": "💡 అంతర్దృష్టులు",
-        "page_title_reviews": "⭐ కమ్యూనిటీ సమీక్షలు",
-
         "metric_total_balance": "మొత్తం బ్యాలెన్స్",
         "metric_monthly_income": "నెలవారీ ఆదాయం",
         "metric_monthly_spending": "నెలవారీ ఖర్చు",
@@ -634,26 +581,6 @@ TRANSLATIONS = {
         "error_csv_invalid_date": "చెల్లని తేదీ '{date}'. YYYY-MM-DD ఉపయోగించండి.",
 
         "use_sidebar_to_open": "👉 {label} తెరవడానికి సైడ్‌బార్ ఉపయోగించండి",
-
-        "reviews_average_rating": "సగటు రేటింగ్",
-        "reviews_total_reviews": "మొత్తం సమీక్షలు",
-        "reviews_recent": "ఇటీవలి సమీక్షలు",
-        "reviews_leave": "సమీక్ష రాయండి",
-        "reviews_name": "మీ పేరు",
-        "reviews_rating": "రేటింగ్",
-        "reviews_comment": "మీ వ్యాఖ్య",
-        "reviews_submit": "సమీక్ష సమర్పించండి",
-        "reviews_comment_limit": "వ్యాఖ్య పరిమితి: 500 అక్షరాలు",
-        "reviews_name_required": "పేరు అవసరం",
-        "reviews_rating_required": "దయచేసి రేటింగ్ ఎంచుకోండి",
-        "reviews_comment_required": "వ్యాఖ్య అవసరం",
-        "reviews_comment_too_long": "వ్యాఖ్య 500 అక్షరాల కంటే తక్కువగా ఉండాలి",
-        "reviews_success": "సమీక్ష విజయవంతంగా సమర్పించబడింది!",
-        "reviews_error": "సమీక్ష సమర్పించడంలో విఫలమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి.",
-        "reviews_no_reviews": "ఇంకా సమీక్షలు లేవు. మొదటి సమీక్ష రాయండి!",
-        "reviews_star": "స్టార్",
-        "reviews_stars": "స్టార్‌లు",
-        "reviews_out_of": "{rating} / 5",
 
         "income": "ఆదాయం",
         "expense": "వ్యయం",
