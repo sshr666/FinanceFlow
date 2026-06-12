@@ -106,11 +106,12 @@ def render():
     st.divider()
 
     st.subheader("🤖 AI Insights")
-    st.caption("Get AI-powered financial recommendations based on your transaction data. Uses local Ollama (phi3:mini).")
+    st.caption("Get AI-powered financial recommendations based on your transaction data. Uses local Ollama.")
 
     if st.button("✨ Generate AI Insights", type="secondary", use_container_width=True):
+        lang = st.session_state.get("lang", "en")
         with st.spinner("Analyzing your transactions with AI..."):
-            insights, error = get_ai_insights(txns)
+            insights, error = get_ai_insights(txns, lang=lang)
         if error:
             st.warning(f"⚠️ {error}")
         else:

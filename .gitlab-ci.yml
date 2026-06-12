@@ -1,0 +1,17 @@
+image: python:3.11
+
+before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+stages:
+  - test
+
+pytest:
+  stage: test
+  script:
+    - python -m pytest tests/ -v --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
