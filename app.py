@@ -67,8 +67,8 @@ else:
     with st.sidebar:
         st.selectbox(
             t("lang_label"),
-            options=["en", "hi", "te"],
-            format_func=lambda x: {"en": t("lang_en"), "hi": t("lang_hi"), "te": t("lang_te")}[x],
+            options=["en", "hi", "ta"],
+            format_func=lambda x: {"en": t("lang_en"), "hi": t("lang_hi"), "ta": t("lang_ta")}[x],
             key="lang",
         )
         st.divider()
