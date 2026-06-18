@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 
 from database.connection import get_session
-from database.models import Transaction, Budget, Settings
+from database.models import Transaction, Budget, Settings, Review
 
 
 def _current_user_id():
@@ -365,6 +365,67 @@ def get_all_settings():
             .all()
         )
         return {r.key: r.value for r in rows}
+    finally:
+        session.close()
+
+
+def add_review(username, title, content, rating=None):
+    session = get_session()
+    try:
+        review = Review(
+            user_id=_current_user_id(),
+            username=username,
+            title=title,
+            content=content,
+            rating=rating,
+            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        )
+        session.add(review)
+        session.commit()
+        return review.id
+    finally:
+        session.close()
+
+
+def get_all_reviews():
+    session = get_session()
+    try:
+        reviews = (
+            session.query(Review)
+            .order_by(Review.created_at.desc())
+            .all()
+        )
+        return [
+            {
+                "id": r.id,
+                "user_id": r.user_id,
+                "username": r.username,
+                "title": r.title,
+                "content": r.content,
+                "rating": r.rating,
+                "created_at": r.created_at,
+            }
+            for r in reviews
+        ]
+    finally:
+        session.close()
+
+
+def delete_review(review_id):
+    user_id = _current_user_id()
+    session = get_session()
+    try:
+        r = (
+            session.query(Review)
+            .filter(Review.id == review_id, Review.user_id == user_id)
+            .first()
+        )
+        if r:
+            session.delete(r)
+            session.commit()
+            _clear_cache()
+            return True
+        return False
     finally:
         session.close()
 
