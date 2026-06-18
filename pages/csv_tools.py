@@ -3,6 +3,7 @@ import pandas as pd
 import io
 
 from database.crud import get_all_transactions, add_transaction
+from database.connection import check_db_writable
 from utils.validators import validate_csv_row
 from utils.empty_states import show_empty_state
 from config.translations import t
@@ -74,6 +75,12 @@ def _render_import():
             st.error(t("error_missing_columns", columns=", ".join(sorted(missing))))
             return
 
+        writable, write_err = check_db_writable()
+        if not writable:
+            st.error(f"Database is not writable: {write_err}. Cannot import transactions. "
+                     f"Please check file permissions or contact support.")
+            return
+
         df.columns = df.columns.str.strip().str.lower()
         imported = 0
         errors = []
@@ -103,5 +110,6 @@ def _render_import():
 
         if imported > 0:
             st.rerun()
+
 
 render()

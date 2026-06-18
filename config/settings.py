@@ -1,8 +1,12 @@
 import os
+import sys
+import logging
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
 
 CONFIG_DEFAULTS = {
     "DB_PATH": "financeflow.db",
@@ -10,6 +14,17 @@ CONFIG_DEFAULTS = {
     "BUDGET_ALERT_THRESHOLD": "80",
     "DEBUG": "false",
 }
+
+
+def get_project_root():
+    return Path(__file__).resolve().parent.parent
+
+
+def resolve_db_path(db_path):
+    p = Path(db_path)
+    if p.is_absolute():
+        return str(p)
+    return str(get_project_root() / p)
 
 
 def get_config(key, default=None):

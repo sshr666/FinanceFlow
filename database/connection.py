@@ -1,16 +1,64 @@
 import os
+import sys
 import logging
+import tempfile
+from pathlib import Path
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from config.settings import get_config
+from config.settings import get_config, resolve_db_path
 from database.models import Base
 
 logger = logging.getLogger(__name__)
 
 
 def get_db_path():
-    return get_config("DB_PATH", "financeflow.db")
+    raw = get_config("DB_PATH", "financeflow.db")
+    resolved = resolve_db_path(raw)
+    return resolved
+
+
+def _ensure_db_directory(db_path):
+    parent = Path(db_path).parent
+    try:
+        parent.mkdir(parents=True, exist_ok=True)
+        return True, None
+    except OSError as e:
+        return False, str(e)
+
+
+def _detect_readonly(db_path):
+    p = Path(db_path)
+    if p.exists():
+        if not os.access(str(p), os.W_OK):
+            return True, "File exists but is not writable"
+        return False, None
+    parent = p.parent
+    if not parent.exists():
+        return False, "Parent directory does not exist"
+    if not os.access(str(parent), os.W_OK):
+        return True, "Parent directory is not writable"
+    return False, None
+
+
+def _log_db_diagnostics(db_path):
+    p = Path(db_path)
+    logger.info("=== Database Diagnostics ===")
+    logger.info("Resolved DB path: %s", db_path)
+    logger.info("File exists: %s", p.exists())
+    if p.exists():
+        logger.info("File size: %s bytes", p.stat().st_size)
+        logger.info("File writable: %s", os.access(str(p), os.W_OK))
+    logger.info("Parent dir: %s", p.parent)
+    logger.info("Parent dir exists: %s", p.parent.exists())
+    logger.info("Parent dir writable: %s", os.access(str(p.parent), os.W_OK) if p.parent.exists() else False)
+    logger.info("CWD: %s", os.getcwd())
+    logger.info("Project root: %s", Path(__file__).resolve().parent.parent)
+    is_readonly, reason = _detect_readonly(db_path)
+    if is_readonly:
+        logger.error("DATABASE IS READ-ONLY: %s", reason)
+    else:
+        logger.info("Database is writable")
 
 
 _engine = None
@@ -20,11 +68,33 @@ def get_engine():
     global _engine
     if _engine is None:
         db_path = get_db_path()
+        ok, err = _ensure_db_directory(db_path)
+        if not ok:
+            logger.error("Cannot create database directory: %s", err)
+            fallback = os.path.join(tempfile.gettempdir(), "financeflow.db")
+            logger.warning("Falling back to temp location: %s", fallback)
+            db_path = fallback
+            _ensure_db_directory(db_path)
+        _log_db_diagnostics(db_path)
         _engine = create_engine(
             f"sqlite:///{db_path}",
             connect_args={"check_same_thread": False},
         )
     return _engine
+
+
+def check_db_writable():
+    engine = get_engine()
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("CREATE TABLE IF NOT EXISTS _writable_test (id INTEGER)"))
+            conn.execute(text("INSERT INTO _writable_test (id) VALUES (1)"))
+            conn.execute(text("DELETE FROM _writable_test"))
+            conn.execute(text("DROP TABLE IF EXISTS _writable_test"))
+            conn.commit()
+        return True, None
+    except Exception as e:
+        return False, str(e)
 
 
 SessionFactory = None
@@ -177,3 +247,6 @@ def init_db():
         logger.warning("Could not create tables: %s", e)
     _upgrade_schema(engine)
     _create_indexes(engine)
+    writable, err = check_db_writable()
+    if not writable:
+        logger.critical("Database is NOT WRITABLE: %s. All write operations will fail!", err)
