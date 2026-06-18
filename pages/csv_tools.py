@@ -1,12 +1,27 @@
 import streamlit as st
 import pandas as pd
 import io
+from sqlalchemy import text
 
+from database.connection import get_engine
 from database.crud import get_all_transactions, add_transaction
-from database.connection import check_db_writable
 from utils.validators import validate_csv_row
 from utils.empty_states import show_empty_state
 from config.translations import t
+
+
+def _check_db_writable():
+    try:
+        engine = get_engine()
+        with engine.connect() as conn:
+            conn.execute(text("CREATE TABLE IF NOT EXISTS _writable_test (id INTEGER)"))
+            conn.execute(text("INSERT INTO _writable_test (id) VALUES (1)"))
+            conn.execute(text("DELETE FROM _writable_test"))
+            conn.execute(text("DROP TABLE IF EXISTS _writable_test"))
+            conn.commit()
+        return True, None
+    except Exception as e:
+        return False, str(e)
 
 
 def render():
@@ -75,7 +90,7 @@ def _render_import():
             st.error(t("error_missing_columns", columns=", ".join(sorted(missing))))
             return
 
-        writable, write_err = check_db_writable()
+        writable, write_err = _check_db_writable()
         if not writable:
             st.error(f"Database is not writable: {write_err}. Cannot import transactions. "
                      f"Please check file permissions or contact support.")
