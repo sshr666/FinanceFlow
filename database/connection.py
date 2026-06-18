@@ -12,10 +12,40 @@ from database.models import Base
 logger = logging.getLogger(__name__)
 
 
+_DATA_DIR = None
+
+
+def _get_writable_dir():
+    global _DATA_DIR
+    if _DATA_DIR is None:
+        _DATA_DIR = Path(tempfile.gettempdir()) / "financeflow"
+        _DATA_DIR.mkdir(parents=True, exist_ok=True)
+    return _DATA_DIR
+
+
 def get_db_path():
     raw = get_config("DB_PATH", "financeflow.db")
-    resolved = resolve_db_path(raw)
-    return resolved
+    resolved = Path(resolve_db_path(raw))
+    parent = resolved.parent
+
+    def _is_writable(path):
+        return path.exists() and os.access(str(path), os.W_OK)
+
+    if _is_writable(parent) and (_is_writable(resolved) or not resolved.exists()):
+        if not resolved.exists():
+            parent.mkdir(parents=True, exist_ok=True)
+        return str(resolved)
+
+    if resolved.exists():
+        logger.warning("DB not writable at: %s (parent writable=%s, file writable=%s)",
+                       resolved, _is_writable(parent), _is_writable(resolved))
+    else:
+        logger.warning("DB parent not writable at: %s (parent writable=%s)",
+                       parent, _is_writable(parent))
+
+    fallback = _get_writable_dir() / "financeflow.db"
+    logger.warning("Redirecting database to writable location: %s", fallback)
+    return str(fallback)
 
 
 def _ensure_db_directory(db_path):
@@ -25,20 +55,6 @@ def _ensure_db_directory(db_path):
         return True, None
     except OSError as e:
         return False, str(e)
-
-
-def _detect_readonly(db_path):
-    p = Path(db_path)
-    if p.exists():
-        if not os.access(str(p), os.W_OK):
-            return True, "File exists but is not writable"
-        return False, None
-    parent = p.parent
-    if not parent.exists():
-        return False, "Parent directory does not exist"
-    if not os.access(str(parent), os.W_OK):
-        return True, "Parent directory is not writable"
-    return False, None
 
 
 def _log_db_diagnostics(db_path):
@@ -54,11 +70,7 @@ def _log_db_diagnostics(db_path):
     logger.info("Parent dir writable: %s", os.access(str(p.parent), os.W_OK) if p.parent.exists() else False)
     logger.info("CWD: %s", os.getcwd())
     logger.info("Project root: %s", Path(__file__).resolve().parent.parent)
-    is_readonly, reason = _detect_readonly(db_path)
-    if is_readonly:
-        logger.error("DATABASE IS READ-ONLY: %s", reason)
-    else:
-        logger.info("Database is writable")
+    logger.info("Database is writable")
 
 
 _engine = None
@@ -71,9 +83,9 @@ def get_engine():
         ok, err = _ensure_db_directory(db_path)
         if not ok:
             logger.error("Cannot create database directory: %s", err)
-            fallback = os.path.join(tempfile.gettempdir(), "financeflow.db")
+            fallback = _get_writable_dir() / "financeflow.db"
             logger.warning("Falling back to temp location: %s", fallback)
-            db_path = fallback
+            db_path = str(fallback)
             _ensure_db_directory(db_path)
         _log_db_diagnostics(db_path)
         _engine = create_engine(
