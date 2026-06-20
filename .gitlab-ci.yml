@@ -3,9 +3,20 @@ image: python:3.11
 before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - pip install pre-commit ruff
 
 stages:
+  - lint
   - test
+
+pre-commit:
+  stage: lint
+  script:
+    - pre-commit run --all-files --show-diff-on-failure
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
 pytest:
   stage: test
