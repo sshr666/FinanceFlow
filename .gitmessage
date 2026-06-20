@@ -1,0 +1,8 @@
+# Conventional Commits format:
+# <type>(<scope>): <description>
+#
+# Types: feat, fix, docs, style, refactor, perf, test, chore, ci
+# Examples:
+# feat(transactions): add CSV export
+# fix(budgets): correct overspending calculation
+# docs(readme): update installation steps

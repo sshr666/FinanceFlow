@@ -25,4 +25,3 @@ Enhance the existing Insights page by integrating Ollama to generate AI-powered 
 3. Transactions are summarized.
 4. Summary is sent to Ollama.
 5. AI recommendations are displayed.
-

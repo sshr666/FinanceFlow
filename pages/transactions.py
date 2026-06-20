@@ -121,7 +121,7 @@ def _render_transaction_form(txns):
 )
 
                 cat_input = new_category.strip() if new_category.strip() else cat_choice
-                
+
             with col2:
                 date_val = st.date_input(
                     t("form_date"),
