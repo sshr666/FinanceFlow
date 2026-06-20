@@ -55,22 +55,34 @@ def budget_vs_actual(month, year, txns=None):
 
     df = pd.DataFrame(txns)
     if df.empty:
-        return [{"category": b["category"], "limit": b["limit_amount"], "actual": 0, "percentage": 0} for b in budgets]
+        return [
+            {
+                "category": b["category"],
+                "limit": b["limit_amount"],
+                "actual": 0,
+                "percentage": 0,
+            }
+            for b in budgets
+        ]
 
     df["amount"] = pd.to_numeric(df["amount"])
     df["date"] = pd.to_datetime(df["date"])
     month_str = f"{year}-{month:02d}"
     df_month = df[df["date"].dt.strftime("%Y-%m") == month_str]
-    expenses = df_month[df_month["type"] == "expense"].groupby("category")["amount"].sum()
+    expenses = (
+        df_month[df_month["type"] == "expense"].groupby("category")["amount"].sum()
+    )
 
     results = []
     for b in budgets:
         actual = expenses.get(b["category"], 0)
         pct = (actual / b["limit_amount"] * 100) if b["limit_amount"] > 0 else 0
-        results.append({
-            "category": b["category"],
-            "limit": b["limit_amount"],
-            "actual": round(actual, 2),
-            "percentage": round(min(pct, 100), 1),
-        })
+        results.append(
+            {
+                "category": b["category"],
+                "limit": b["limit_amount"],
+                "actual": round(actual, 2),
+                "percentage": round(min(pct, 100), 1),
+            }
+        )
     return results

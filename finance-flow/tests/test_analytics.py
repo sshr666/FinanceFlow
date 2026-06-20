@@ -1,5 +1,3 @@
-import pytest
-
 from database.crud import add_transaction
 from analytics.metrics import (
     category_spending,
@@ -10,7 +8,6 @@ from analytics.metrics import (
 from analytics.insights import (
     highest_spending_category,
     average_monthly_spend,
-    month_over_month_change,
     savings_rate,
 )
 
@@ -44,6 +41,7 @@ class TestBudgetMetrics:
         for t in sample_transactions:
             add_transaction(**t)
         from database.crud import set_budget
+
         set_budget("Food", 1, 2026, 500.00)
         results = budget_vs_actual(1, 2026)
         assert len(results) == 1

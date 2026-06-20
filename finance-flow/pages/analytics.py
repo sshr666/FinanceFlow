@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-from database.crud import get_all_transactions, get_budgets
+from database.crud import get_all_transactions
 from analytics.charts import pie_chart, bar_chart, line_chart
 from analytics.metrics import (
     category_spending,
@@ -40,7 +40,10 @@ def render():
         options=available_months,
         index=len(available_months) - 1 if available_months else 0,
     )
-    sel_year, sel_month = int(selected_month.split("-")[0]), int(selected_month.split("-")[1])
+    sel_year, sel_month = (
+        int(selected_month.split("-")[0]),
+        int(selected_month.split("-")[1]),
+    )
 
     col1, col2 = st.columns(2)
 
@@ -48,10 +51,20 @@ def render():
         cat_data = category_spending()
         if cat_data:
             cat_df = pd.DataFrame(
-                [{"Category": k, "Amount": v} for k, v in sorted(cat_data.items(), key=lambda x: x[1], reverse=True)]
+                [
+                    {"Category": k, "Amount": v}
+                    for k, v in sorted(
+                        cat_data.items(), key=lambda x: x[1], reverse=True
+                    )
+                ]
             )
             st.subheader(t("subheader_category_spending"))
-            fig = pie_chart(cat_df, names="Category", values="Amount", title=t("chart_title_spending_by_category"))
+            fig = pie_chart(
+                cat_df,
+                names="Category",
+                values="Amount",
+                title=t("chart_title_spending_by_category"),
+            )
             st.plotly_chart(fig, use_container_width=True)
 
     with col2:
@@ -76,7 +89,6 @@ def render():
 
     st.subheader(t("subheader_monthly_trends"))
     expense_monthly = monthly_totals(type_="expense")
-    income_monthly = monthly_totals(type_="income")
     if expense_monthly:
         trend_df = pd.DataFrame(
             {
@@ -84,7 +96,12 @@ def render():
                 "Spending": list(expense_monthly.values()),
             }
         ).sort_values("Month")
-        fig = line_chart(trend_df, x="Month", y="Spending", title=t("chart_title_monthly_spending_trend"))
+        fig = line_chart(
+            trend_df,
+            x="Month",
+            y="Spending",
+            title=t("chart_title_monthly_spending_trend"),
+        )
         st.plotly_chart(fig, use_container_width=True)
 
     st.subheader(t("subheader_budget_utilization"))
@@ -101,5 +118,6 @@ def render():
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info(t("info_no_budgets_analytics"))
+
 
 render()

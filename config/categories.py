@@ -1,4 +1,4 @@
-from database.crud import get_all_categories, add_transaction
+from database.crud import get_all_categories
 
 DEFAULT_INCOME_CATEGORIES = ["Salary", "Freelance", "Investments", "Other Income"]
 DEFAULT_EXPENSE_CATEGORIES = [

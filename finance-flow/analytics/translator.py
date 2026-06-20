@@ -18,6 +18,7 @@ LANG_MAP = {
 def get_api_key():
     try:
         import streamlit as st
+
         key = st.secrets.get("SARVAM_API_KEY")
         if key:
             return key
@@ -34,7 +35,10 @@ def translate(text, target_language):
 
     api_key = get_api_key()
     if not api_key:
-        return None, "SARVAM_API_KEY not configured. Set it in .env or Streamlit secrets."
+        return (
+            None,
+            "SARVAM_API_KEY not configured. Set it in .env or Streamlit secrets.",
+        )
 
     lang_codes = LANG_MAP[target_language]
 

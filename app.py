@@ -1,6 +1,5 @@
 import streamlit as st
 
-from config.settings import get_config
 from config.styling import apply_theme
 from database.connection import init_db
 from config.categories import ensure_default_categories
@@ -45,7 +44,9 @@ if st.session_state["user_id"] is None:
         with st.form("signup_form"):
             username = st.text_input("Choose a username")
             password = st.text_input("Choose a password", type="password")
-            if st.form_submit_button("Sign Up", type="primary", use_container_width=True):
+            if st.form_submit_button(
+                "Sign Up", type="primary", use_container_width=True
+            ):
                 user_id, err = signup(username, password)
                 if err:
                     st.error(err)
@@ -55,20 +56,38 @@ if st.session_state["user_id"] is None:
                     st.rerun()
 else:
     pages = {
-        t("nav_dashboard"): st.Page("pages/dashboard.py", title=t("nav_dashboard"), icon="📊"),
-        t("nav_transactions"): st.Page("pages/transactions.py", title=t("nav_transactions"), icon="💳"),
-        t("nav_analytics"): st.Page("pages/analytics.py", title=t("nav_analytics"), icon="📈"),
-        t("nav_budgets"): st.Page("pages/budgets.py", title=t("nav_budgets"), icon="🎯"),
-        t("nav_csv_tools"): st.Page("pages/csv_tools.py", title=t("nav_csv_tools"), icon="📁"),
-        t("nav_insights"): st.Page("pages/insights.py", title=t("nav_insights"), icon="💡"),
-        t("nav_reviews"): st.Page("pages/reviews.py", title=t("nav_reviews"), icon="⭐"),
+        t("nav_dashboard"): st.Page(
+            "pages/dashboard.py", title=t("nav_dashboard"), icon="📊"
+        ),
+        t("nav_transactions"): st.Page(
+            "pages/transactions.py", title=t("nav_transactions"), icon="💳"
+        ),
+        t("nav_analytics"): st.Page(
+            "pages/analytics.py", title=t("nav_analytics"), icon="📈"
+        ),
+        t("nav_budgets"): st.Page(
+            "pages/budgets.py", title=t("nav_budgets"), icon="🎯"
+        ),
+        t("nav_csv_tools"): st.Page(
+            "pages/csv_tools.py", title=t("nav_csv_tools"), icon="📁"
+        ),
+        t("nav_insights"): st.Page(
+            "pages/insights.py", title=t("nav_insights"), icon="💡"
+        ),
+        t("nav_reviews"): st.Page(
+            "pages/reviews.py", title=t("nav_reviews"), icon="⭐"
+        ),
     }
 
     with st.sidebar:
         st.selectbox(
             t("lang_label"),
             options=["en", "hi", "ta"],
-            format_func=lambda x: {"en": t("lang_en"), "hi": t("lang_hi"), "ta": t("lang_ta")}[x],
+            format_func=lambda x: {
+                "en": t("lang_en"),
+                "hi": t("lang_hi"),
+                "ta": t("lang_ta"),
+            }[x],
             key="lang",
         )
         st.divider()

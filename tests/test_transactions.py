@@ -1,6 +1,9 @@
-import pytest
-
-from database.crud import add_transaction, update_transaction, delete_transaction, get_all_transactions
+from database.crud import (
+    add_transaction,
+    update_transaction,
+    delete_transaction,
+    get_all_transactions,
+)
 
 
 class TestTransactionCalculations:
@@ -23,7 +26,9 @@ class TestTransactionCalculations:
         update_transaction(expense_txn["id"], amount=500.00)
         updated_txns = get_all_transactions()
         total_expense_before = sum(t["amount"] for t in txns if t["type"] == "expense")
-        total_expense_after = sum(t["amount"] for t in updated_txns if t["type"] == "expense")
+        total_expense_after = sum(
+            t["amount"] for t in updated_txns if t["type"] == "expense"
+        )
         assert total_expense_after == total_expense_before - original_amount + 500.00
 
     def test_delete_recalculation(self, db_session):

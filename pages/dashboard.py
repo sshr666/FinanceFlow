@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
 from database.crud import get_all_transactions
 from analytics.charts import line_chart
@@ -34,7 +33,10 @@ def render():
 
     income = df_month[df_month["type"] == "income"]["amount"].sum()
     expenses = df_month[df_month["type"] == "expense"]["amount"].sum()
-    balance = df[df["type"] == "income"]["amount"].sum() - df[df["type"] == "expense"]["amount"].sum()
+    balance = (
+        df[df["type"] == "income"]["amount"].sum()
+        - df[df["type"] == "expense"]["amount"].sum()
+    )
 
     savings = income - expenses
 
@@ -47,7 +49,9 @@ def render():
         st.metric(t("metric_monthly_spending"), f"${expenses:,.2f}")
     with col4:
         delta = savings
-        st.metric(t("metric_monthly_savings"), f"${savings:,.2f}", delta=f"${delta:,.2f}")
+        st.metric(
+            t("metric_monthly_savings"), f"${savings:,.2f}", delta=f"${delta:,.2f}"
+        )
 
     col_a, col_b = st.columns(2)
 
@@ -85,5 +89,6 @@ def render():
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.info(t("info_no_expense_data"))
+
 
 render()

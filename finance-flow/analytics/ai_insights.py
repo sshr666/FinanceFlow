@@ -79,7 +79,10 @@ Keep the response brief, friendly, and under 200 words. Do not use markdown form
         if not text:
             return None, "Ollama returned an empty response."
     except requests.exceptions.ConnectionError:
-        return None, "Could not connect to Ollama. Make sure Ollama is running locally (http://localhost:11434)."
+        return (
+            None,
+            "Could not connect to Ollama. Make sure Ollama is running locally (http://localhost:11434).",
+        )
     except requests.exceptions.Timeout:
         return None, "Ollama request timed out. Please try again."
     except requests.exceptions.RequestException as e:

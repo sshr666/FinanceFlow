@@ -89,19 +89,26 @@ def _render_import():
                         amount=float(row["amount"]),
                         category=row["category"].strip(),
                         date=row["date"].strip(),
-                        description=str(row.get("description", "")).strip() if pd.notna(row.get("description")) else None,
+                        description=str(row.get("description", "")).strip()
+                        if pd.notna(row.get("description"))
+                        else None,
                     )
                     imported += 1
                 except Exception as e:
-                    errors.append({"row": idx + 2, "errors": t("label_database_error", error=e)})
+                    errors.append(
+                        {"row": idx + 2, "errors": t("label_database_error", error=e)}
+                    )
 
         st.success(t("success_imported", count=imported))
         if errors:
             st.warning(t("warning_import_errors", count=len(errors)))
             for e in errors:
-                st.markdown(t("label_import_error_row", row=e["row"], errors=e["errors"]))
+                st.markdown(
+                    t("label_import_error_row", row=e["row"], errors=e["errors"])
+                )
 
         if imported > 0:
             st.rerun()
+
 
 render()

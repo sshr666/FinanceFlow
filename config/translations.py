@@ -15,7 +15,6 @@ TRANSLATIONS = {
         "lang_en": "English",
         "lang_hi": "Hindi",
         "lang_te": "Telugu",
-
         # Page titles
         "page_title_dashboard": "📊 Dashboard",
         "page_title_transactions": "💳 Transactions",
@@ -29,18 +28,15 @@ TRANSLATIONS = {
         "metric_monthly_income": "Monthly Income",
         "metric_monthly_spending": "Monthly Spending",
         "metric_monthly_savings": "Monthly Savings",
-
         # Dashboard sections
         "subheader_recent_transactions": "Recent Transactions",
         "subheader_monthly_spending_trend": "Monthly Spending Trend",
         "chart_title_daily_expenses": "Daily Expenses (Last 30 days)",
         "info_no_expense_data": "No expense data to show trend.",
-
         # Dashboard empty state
         "empty_dashboard_title": "Welcome to FinanceFlow!",
         "empty_dashboard_message": "Start tracking your finances by adding your first transaction. Visit the Transactions page to get started.",
         "empty_dashboard_cta": "Go to Transactions",
-
         # Transactions page
         "tab_transactions": "Transactions",
         "tab_manage_categories": "Manage Categories",
@@ -84,14 +80,12 @@ TRANSLATIONS = {
         "reassign_transactions": "Reassign transactions to category",
         "btn_delete_category": "Delete Category",
         "success_deleted_category": "Deleted category '{cat}'",
-
         # Data table headers
         "col_date": "Date",
         "col_type": "Type",
         "col_category": "Category",
         "col_amount": "Amount",
         "col_description": "Description",
-
         # Analytics page
         "select_month": "Select month",
         "subheader_category_spending": "Category Spending",
@@ -108,7 +102,6 @@ TRANSLATIONS = {
         "empty_analytics_message": "Add transactions to see charts and analytics.",
         "empty_analytics_cta": "Go to Transactions",
         "info_no_budgets_analytics": "No budgets set for the selected month. Go to Budgets page to create one.",
-
         # Budgets page
         "tab_budget_overview": "Budget Overview",
         "tab_manage_budgets": "Manage Budgets",
@@ -132,7 +125,6 @@ TRANSLATIONS = {
         "warning_budget_nearing": "⚡ {category} nearing limit ({pct}% used)",
         "success_budget_saved": "Budget saved for '{category}' - ${limit:,.2f}/month",
         "error_budget_required": "Category name and positive limit are required.",
-
         # CSV Tools page
         "tab_export": "Export",
         "tab_import": "Import",
@@ -154,7 +146,6 @@ TRANSLATIONS = {
         "warning_import_errors": "⚠️ {count} row(s) had errors:",
         "label_import_error_row": "- Row {row}: {errors}",
         "label_database_error": "Database error: {error}",
-
         # Insights page
         "subheader_spending_patterns": "💳 Spending Patterns",
         "subheader_savings_trends": "💰 Savings & Trends",
@@ -177,12 +168,10 @@ TRANSLATIONS = {
         "empty_insights_title": "Not enough data",
         "empty_insights_message": "Track transactions for at least one month to see spending insights.",
         "empty_insights_cta": "Go to Transactions",
-
         # Spending trend directions
         "trend_increasing": "increasing",
         "trend_decreasing": "decreasing",
         "trend_stable": "stable",
-
         # Validation messages
         "error_amount_number": "Amount must be a number.",
         "error_amount_positive": "Amount must be greater than zero.",
@@ -200,10 +189,8 @@ TRANSLATIONS = {
         "error_csv_missing_category": "Missing or empty 'category' column.",
         "error_csv_missing_date": "Missing or empty 'date' column.",
         "error_csv_invalid_date": "Invalid date '{date}'. Use YYYY-MM-DD.",
-
         # Empty state component
         "use_sidebar_to_open": "👉 Use the sidebar to open {label}",
-
         # Reviews page
         "subheader_all_reviews": "All Reviews",
         "subheader_write_review": "Write a Review",
@@ -218,11 +205,9 @@ TRANSLATIONS = {
         "label_review_by": "by {username} on {date}",
         "label_rating": "Rating: {rating}/5",
         "btn_delete_review": "Delete",
-
         "income": "income",
         "expense": "expense",
     },
-
     "hi": {
         "nav_dashboard": "डैशबोर्ड",
         "nav_transactions": "लेन-देन",
@@ -235,7 +220,6 @@ TRANSLATIONS = {
         "lang_en": "अंग्रेज़ी",
         "lang_hi": "हिंदी",
         "lang_te": "तेलुगु",
-
         "page_title_dashboard": "📊 डैशबोर्ड",
         "page_title_transactions": "💳 लेन-देन",
         "page_title_analytics": "📈 विश्लेषण",
@@ -247,16 +231,13 @@ TRANSLATIONS = {
         "metric_monthly_income": "मासिक आय",
         "metric_monthly_spending": "मासिक खर्च",
         "metric_monthly_savings": "मासिक बचत",
-
         "subheader_recent_transactions": "हाल के लेन-देन",
         "subheader_monthly_spending_trend": "मासिक खर्च रुझान",
         "chart_title_daily_expenses": "दैनिक खर्च (पिछले 30 दिन)",
         "info_no_expense_data": "रुझान दिखाने के लिए कोई खर्च डेटा नहीं।",
-
         "empty_dashboard_title": "FinanceFlow में आपका स्वागत है!",
         "empty_dashboard_message": "अपना पहला लेन-देन जोड़कर अपने वित्त पर नज़र रखना शुरू करें। आरंभ करने के लिए लेन-देन पेज पर जाएं।",
         "empty_dashboard_cta": "लेन-देन पर जाएं",
-
         "tab_transactions": "लेन-देन",
         "tab_manage_categories": "श्रेणियाँ प्रबंधित करें",
         "subheader_transaction_history": "लेन-देन इतिहास",
@@ -299,13 +280,11 @@ TRANSLATIONS = {
         "reassign_transactions": "लेन-देन को श्रेणी में पुनः असाइन करें",
         "btn_delete_category": "श्रेणी हटाएं",
         "success_deleted_category": "श्रेणी '{cat}' हटा दी गई",
-
         "col_date": "तारीख",
         "col_type": "प्रकार",
         "col_category": "श्रेणी",
         "col_amount": "राशि",
         "col_description": "विवरण",
-
         "select_month": "महीना चुनें",
         "subheader_category_spending": "श्रेणी खर्च",
         "subheader_income_vs_expenses": "आय बनाम व्यय",
@@ -321,7 +300,6 @@ TRANSLATIONS = {
         "empty_analytics_message": "चार्ट और विश्लेषण देखने के लिए लेन-देन जोड़ें।",
         "empty_analytics_cta": "लेन-देन पर जाएं",
         "info_no_budgets_analytics": "चयनित महीने के लिए कोई बजट नहीं। एक बनाने के लिए बजट पेज पर जाएं।",
-
         "tab_budget_overview": "बजट अवलोकन",
         "tab_manage_budgets": "बजट प्रबंधित करें",
         "subheader_budget_overview": "बजट अवलोकन - {date}",
@@ -344,7 +322,6 @@ TRANSLATIONS = {
         "warning_budget_nearing": "⚡ {category} सीमा के करीब ({pct}% उपयोग)",
         "success_budget_saved": "'{category}' के लिए बजट सहेजा गया - ${limit:,.2f}/माह",
         "error_budget_required": "श्रेणी का नाम और सकारात्मक सीमा आवश्यक है।",
-
         "tab_export": "निर्यात",
         "tab_import": "आयात",
         "subheader_export": "लेन-देन निर्यात करें",
@@ -365,7 +342,6 @@ TRANSLATIONS = {
         "warning_import_errors": "⚠️ {count} पंक्ति(यों) में त्रुटियाँ थीं:",
         "label_import_error_row": "- पंक्ति {row}: {errors}",
         "label_database_error": "डेटाबेस त्रुटि: {error}",
-
         "subheader_spending_patterns": "💳 खर्च पैटर्न",
         "subheader_savings_trends": "💰 बचत और रुझान",
         "metric_highest_spending_category": "सबसे अधिक खर्च वाली श्रेणी",
@@ -387,11 +363,9 @@ TRANSLATIONS = {
         "empty_insights_title": "पर्याप्त डेटा नहीं",
         "empty_insights_message": "खर्च अंतर्दृष्टि देखने के लिए कम से कम एक महीने के लेन-देन ट्रैक करें।",
         "empty_insights_cta": "लेन-देन पर जाएं",
-
         "trend_increasing": "बढ़ रहा है",
         "trend_decreasing": "घट रहा है",
         "trend_stable": "स्थिर",
-
         "error_amount_number": "राशि एक संख्या होनी चाहिए।",
         "error_amount_positive": "राशि शून्य से अधिक होनी चाहिए।",
         "error_amount_too_large": "राशि बहुत अधिक है।",
@@ -408,9 +382,7 @@ TRANSLATIONS = {
         "error_csv_missing_category": "'category' कॉलम गायब या खाली।",
         "error_csv_missing_date": "'date' कॉलम गायब या खाली।",
         "error_csv_invalid_date": "अमान्य तारीख '{date}'। YYYY-MM-DD का उपयोग करें।",
-
         "use_sidebar_to_open": "👉 {label} खोलने के लिए साइडबार का उपयोग करें",
-
         # Reviews page
         "subheader_all_reviews": "सभी समीक्षाएं",
         "subheader_write_review": "समीक्षा लिखें",
@@ -425,11 +397,9 @@ TRANSLATIONS = {
         "label_review_by": "{date} को {username} द्वारा",
         "label_rating": "रेटिंग: {rating}/5",
         "btn_delete_review": "हटाएं",
-
         "income": "आय",
         "expense": "व्यय",
     },
-
     "te": {
         "nav_dashboard": "డాష్‌బోర్డ్",
         "nav_transactions": "లావాదేవీలు",
@@ -442,7 +412,6 @@ TRANSLATIONS = {
         "lang_en": "ఆంగ్లం",
         "lang_hi": "హిందీ",
         "lang_te": "తెలుగు",
-
         "page_title_dashboard": "📊 డాష్‌బోర్డ్",
         "page_title_transactions": "💳 లావాదేవీలు",
         "page_title_analytics": "📈 విశ్లేషణ",
@@ -454,16 +423,13 @@ TRANSLATIONS = {
         "metric_monthly_income": "నెలవారీ ఆదాయం",
         "metric_monthly_spending": "నెలవారీ ఖర్చు",
         "metric_monthly_savings": "నెలవారీ పొదుపు",
-
         "subheader_recent_transactions": "ఇటీవలి లావాదేవీలు",
         "subheader_monthly_spending_trend": "నెలవారీ ఖర్చు ధోరణి",
         "chart_title_daily_expenses": "రోజువారీ ఖర్చులు (చివరి 30 రోజులు)",
         "info_no_expense_data": "ధోరణిని చూపించడానికి ఖర్చు డేటా లేదు.",
-
         "empty_dashboard_title": "FinanceFlow‌కి స్వాగతం!",
         "empty_dashboard_message": "మీ మొదటి లావాదేవీని జోడించడం ద్వారా మీ ఫైనాన్స్‌ను ట్రాక్ చేయడం ప్రారంభించండి. ప్రారంభించడానికి లావాదేవీల పేజీని సందర్శించండి.",
         "empty_dashboard_cta": "లావాదేవీలకు వెళ్ళండి",
-
         "tab_transactions": "లావాదేవీలు",
         "tab_manage_categories": "వర్గాలను నిర్వహించండి",
         "subheader_transaction_history": "లావాదేవీల చరిత్ర",
@@ -506,13 +472,11 @@ TRANSLATIONS = {
         "reassign_transactions": "లావాదేవీలను వర్గానికి కేటాయించండి",
         "btn_delete_category": "వర్గాన్ని తొలగించండి",
         "success_deleted_category": "వర్గం '{cat}' తొలగించబడింది",
-
         "col_date": "తేదీ",
         "col_type": "రకం",
         "col_category": "వర్గం",
         "col_amount": "మొత్తం",
         "col_description": "వివరణ",
-
         "select_month": "నెలను ఎంచుకోండి",
         "subheader_category_spending": "వర్గం వారీ ఖర్చు",
         "subheader_income_vs_expenses": "ఆదాయం vs ఖర్చులు",
@@ -528,7 +492,6 @@ TRANSLATIONS = {
         "empty_analytics_message": "చార్ట్‌లు మరియు విశ్లేషణ చూడటానికి లావాదేవీలను జోడించండి.",
         "empty_analytics_cta": "లావాదేవీలకు వెళ్ళండి",
         "info_no_budgets_analytics": "ఎంచుకున్న నెలకు బడ్జెట్‌లు సెట్ చేయబడలేదు. ఒకటి సృష్టించడానికి బడ్జెట్‌ల పేజీకి వెళ్ళండి.",
-
         "tab_budget_overview": "బడ్జెట్ అవలోకనం",
         "tab_manage_budgets": "బడ్జెట్‌లను నిర్వహించండి",
         "subheader_budget_overview": "బడ్జెట్ అవలోకనం - {date}",
@@ -551,7 +514,6 @@ TRANSLATIONS = {
         "warning_budget_nearing": "⚡ {category} పరిమితి చేరువలో ఉంది ({pct}% ఉపయోగించబడింది)",
         "success_budget_saved": "'{category}' కోసం బడ్జెట్ సేవ్ చేయబడింది - ${limit:,.2f}/నెల",
         "error_budget_required": "వర్గం పేరు మరియు సానుకూల పరిమితి అవసరం.",
-
         "tab_export": "ఎగుమతి",
         "tab_import": "దిగుమతి",
         "subheader_export": "లావాదేవీలను ఎగుమతి చేయండి",
@@ -572,7 +534,6 @@ TRANSLATIONS = {
         "warning_import_errors": "⚠️ {count} వరుస(ల)లో లోపాలు ఉన్నాయి:",
         "label_import_error_row": "- వరుస {row}: {errors}",
         "label_database_error": "డేటాబేస్ లోపం: {error}",
-
         "subheader_spending_patterns": "💳 ఖర్చు నమూనాలు",
         "subheader_savings_trends": "💰 పొదుపు & ధోరణులు",
         "metric_highest_spending_category": "అత్యధిక ఖర్చు వర్గం",
@@ -594,11 +555,9 @@ TRANSLATIONS = {
         "empty_insights_title": "తగినంత డేటా లేదు",
         "empty_insights_message": "ఖర్చు అంతర్దృష్టులను చూడటానికి కనీసం ఒక నెల లావాదేవీలను ట్రాక్ చేయండి.",
         "empty_insights_cta": "లావాదేవీలకు వెళ్ళండి",
-
         "trend_increasing": "పెరుగుతోంది",
         "trend_decreasing": "తగ్గుతోంది",
         "trend_stable": "స్థిరంగా",
-
         "error_amount_number": "మొత్తం తప్పనిసరిగా సంఖ్య అయి ఉండాలి.",
         "error_amount_positive": "మొత్తం సున్నా కంటే ఎక్కువగా ఉండాలి.",
         "error_amount_too_large": "మొత్తం చాలా పెద్దగా ఉంది.",
@@ -615,9 +574,7 @@ TRANSLATIONS = {
         "error_csv_missing_category": "'category' నిలువు వరుస లేదు లేదా ఖాళీగా ఉంది.",
         "error_csv_missing_date": "'date' నిలువు వరుస లేదు లేదా ఖాళీగా ఉంది.",
         "error_csv_invalid_date": "చెల్లని తేదీ '{date}'. YYYY-MM-DD ఉపయోగించండి.",
-
         "use_sidebar_to_open": "👉 {label} తెరవడానికి సైడ్‌బార్ ఉపయోగించండి",
-
         # Reviews page
         "subheader_all_reviews": "అన్ని సమీక్షలు",
         "subheader_write_review": "సమీక్ష రాయండి",
@@ -632,11 +589,9 @@ TRANSLATIONS = {
         "label_review_by": "{date}న {username}చే",
         "label_rating": "రేటింగ్: {rating}/5",
         "btn_delete_review": "తొలగించు",
-
         "income": "ఆదాయం",
         "expense": "వ్యయం",
     },
-
     "ta": {
         "nav_dashboard": "டாஷ்போர்டு",
         "nav_transactions": "பரிவர்த்தனைகள்",
@@ -650,7 +605,6 @@ TRANSLATIONS = {
         "lang_hi": "இந்தி",
         "lang_te": "தெலுங்கு",
         "lang_ta": "தமிழ்",
-
         "page_title_dashboard": "📊 டாஷ்போர்டு",
         "page_title_transactions": "💳 பரிவர்த்தனைகள்",
         "page_title_analytics": "📈 பகுப்பாய்வு",
@@ -662,16 +616,13 @@ TRANSLATIONS = {
         "metric_monthly_income": "மாத வருமானம்",
         "metric_monthly_spending": "மாத செலவு",
         "metric_monthly_savings": "மாத சேமிப்பு",
-
         "subheader_recent_transactions": "சமீபத்திய பரிவர்த்தனைகள்",
         "subheader_monthly_spending_trend": "மாத செலவு போக்கு",
         "chart_title_daily_expenses": "தினசரி செலவுகள் (கடந்த 30 நாட்கள்)",
         "info_no_expense_data": "போக்கைக் காட்ட செலவு தரவு இல்லை.",
-
         "empty_dashboard_title": "FinanceFlow க்கு வரவேற்கிறோம்!",
         "empty_dashboard_message": "உங்கள் முதல் பரிவர்த்தனையைச் சேர்ப்பதன் மூலம் உங்கள் நிதியைக் கண்காணிக்கத் தொடங்குங்கள். தொடங்க பரிவர்த்தனைகள் பக்கத்தைப் பார்வையிடவும்.",
         "empty_dashboard_cta": "பரிவர்த்தனைகளுக்குச் செல்லவும்",
-
         "tab_transactions": "பரிவர்த்தனைகள்",
         "tab_manage_categories": "வகைகளை நிர்வகிக்கவும்",
         "subheader_transaction_history": "பரிவர்த்தனை வரலாறு",
@@ -714,13 +665,11 @@ TRANSLATIONS = {
         "reassign_transactions": "பரிவர்த்தனைகளை வகைக்கு மறு ஒதுக்கீடு செய்யவும்",
         "btn_delete_category": "வகையை நீக்கவும்",
         "success_deleted_category": "'{cat}' வகை நீக்கப்பட்டது",
-
         "col_date": "தேதி",
         "col_type": "வகை",
         "col_category": "வகை",
         "col_amount": "தொகை",
         "col_description": "விளக்கம்",
-
         "select_month": "மாதத்தைத் தேர்ந்தெடுக்கவும்",
         "subheader_category_spending": "வகை வாரி செலவு",
         "subheader_income_vs_expenses": "வருமானம் vs செலவுகள்",
@@ -736,7 +685,6 @@ TRANSLATIONS = {
         "empty_analytics_message": "விளக்கப்படங்கள் மற்றும் பகுப்பாய்வுகளைக் காண பரிவர்த்தனைகளைச் சேர்க்கவும்.",
         "empty_analytics_cta": "பரிவர்த்தனைகளுக்குச் செல்லவும்",
         "info_no_budgets_analytics": "தேர்ந்தெடுக்கப்பட்ட மாதத்திற்கு பட்ஜெட்டுகள் எதுவும் இல்லை. ஒன்றை உருவாக்க பட்ஜெட்டுகள் பக்கத்திற்குச் செல்லவும்.",
-
         "tab_budget_overview": "பட்ஜெட் கண்ணோட்டம்",
         "tab_manage_budgets": "பட்ஜெட்டுகளை நிர்வகிக்கவும்",
         "subheader_budget_overview": "பட்ஜெட் கண்ணோட்டம் - {date}",
@@ -759,7 +707,6 @@ TRANSLATIONS = {
         "warning_budget_nearing": "⚡ {category} வரம்பை நெருங்குகிறது ({pct}% பயன்படுத்தப்பட்டது)",
         "success_budget_saved": "'{category}' க்கான பட்ஜெட் சேமிக்கப்பட்டது - ${limit:,.2f}/மாதம்",
         "error_budget_required": "வகை பெயர் மற்றும் நேர்மறை வரம்பு தேவை.",
-
         "tab_export": "ஏற்றுமதி",
         "tab_import": "இறக்குமதி",
         "subheader_export": "பரிவர்த்தனைகளை ஏற்றுமதி செய்யவும்",
@@ -780,7 +727,6 @@ TRANSLATIONS = {
         "warning_import_errors": "⚠️ {count} வரிசை(களில்) பிழைகள் உள்ளன:",
         "label_import_error_row": "- வரிசை {row}: {errors}",
         "label_database_error": "தரவுத்தள பிழை: {error}",
-
         "subheader_spending_patterns": "💳 செலவு முறைகள்",
         "subheader_savings_trends": "💰 சேமிப்பு & போக்குகள்",
         "metric_highest_spending_category": "அதிக செலவு வகை",
@@ -802,11 +748,9 @@ TRANSLATIONS = {
         "empty_insights_title": "போதுமான தரவு இல்லை",
         "empty_insights_message": "செலவு நுண்ணறிவுகளைக் காண குறைந்தது ஒரு மாத பரிவர்த்தனைகளைக் கண்காணிக்கவும்.",
         "empty_insights_cta": "பரிவர்த்தனைகளுக்குச் செல்லவும்",
-
         "trend_increasing": "அதிகரித்து வருகிறது",
         "trend_decreasing": "குறைந்து வருகிறது",
         "trend_stable": "நிலையானது",
-
         "error_amount_number": "தொகை ஒரு எண்ணாக இருக்க வேண்டும்.",
         "error_amount_positive": "தொகை பூஜ்ஜியத்தை விட அதிகமாக இருக்க வேண்டும்.",
         "error_amount_too_large": "தொகை மிகவும் பெரியது.",
@@ -823,9 +767,7 @@ TRANSLATIONS = {
         "error_csv_missing_category": "'category' நெடுவரிசை இல்லை அல்லது காலியாக உள்ளது.",
         "error_csv_missing_date": "'date' நெடுவரிசை இல்லை அல்லது காலியாக உள்ளது.",
         "error_csv_invalid_date": "தவறான தேதி '{date}'. YYYY-MM-DD பயன்படுத்தவும்.",
-
         "use_sidebar_to_open": "👉 {label} ஐ திறக்க பக்கப்பட்டியைப் பயன்படுத்தவும்",
-
         # Reviews page
         "subheader_all_reviews": "அனைத்து மதிப்புரைகள்",
         "subheader_write_review": "மதிப்புரை எழுதவும்",
@@ -840,7 +782,6 @@ TRANSLATIONS = {
         "label_review_by": "{date} அன்று {username} ஆல்",
         "label_rating": "மதிப்பீடு: {rating}/5",
         "btn_delete_review": "நீக்கு",
-
         "income": "வருமானம்",
         "expense": "செலவு",
     },

@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
-from database.crud import get_all_transactions, get_budgets, set_setting
+from database.crud import get_all_transactions, set_setting
 from analytics.insights import (
     highest_spending_category,
     average_monthly_spend,
@@ -48,7 +47,9 @@ def render():
         change = month_over_month_change()
         if change is not None:
             delta = f"{change}%"
-            st.metric(t("metric_month_over_month_change"), f"{change:+.1f}%", delta=delta)
+            st.metric(
+                t("metric_month_over_month_change"), f"{change:+.1f}%", delta=delta
+            )
         else:
             st.metric(t("metric_month_over_month_change"), t("na_need_more_months"))
 
@@ -58,19 +59,31 @@ def render():
         st.metric(t("metric_savings_rate"), f"{s_rate}%")
 
         direction = spending_trend_direction()
-        trend_labels = {"increasing": t("trend_increasing"), "decreasing": t("trend_decreasing"), "stable": t("trend_stable")}
+        trend_labels = {
+            "increasing": t("trend_increasing"),
+            "decreasing": t("trend_decreasing"),
+            "stable": t("trend_stable"),
+        }
         emoji = {"increasing": "📈", "decreasing": "📉", "stable": "➡️"}
-        st.metric(t("metric_spending_trend"), f"{emoji.get(direction, '➡️')} {trend_labels.get(direction, direction).capitalize()}")
+        st.metric(
+            t("metric_spending_trend"),
+            f"{emoji.get(direction, '➡️')} {trend_labels.get(direction, direction).capitalize()}",
+        )
 
         target = get_savings_target()
-        st.metric(t("metric_savings_target"), f"${target:,.2f}/month" if target > 0 else t("label_not_set"))
+        st.metric(
+            t("metric_savings_target"),
+            f"${target:,.2f}/month" if target > 0 else t("label_not_set"),
+        )
 
     st.divider()
 
     st.subheader(t("subheader_savings_goal"))
     col_a, col_b = st.columns([2, 1])
     with col_a:
-        new_target = st.number_input(t("form_savings_target"), min_value=0.0, format="%.2f", value=target)
+        new_target = st.number_input(
+            t("form_savings_target"), min_value=0.0, format="%.2f", value=target
+        )
     with col_b:
         if st.button(t("btn_save_target"), type="primary"):
             set_setting("savings_target", str(new_target))
@@ -106,7 +119,9 @@ def render():
     st.divider()
 
     st.subheader("🤖 AI Insights")
-    st.caption("Get AI-powered financial recommendations based on your transaction data. Uses local Ollama.")
+    st.caption(
+        "Get AI-powered financial recommendations based on your transaction data. Uses local Ollama."
+    )
 
     if st.button("✨ Generate AI Insights", type="secondary", use_container_width=True):
         lang = st.session_state.get("lang", "en")
@@ -117,5 +132,6 @@ def render():
         else:
             st.success("✅ AI analysis complete!")
             st.markdown(insights)
+
 
 render()

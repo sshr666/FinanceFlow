@@ -13,7 +13,6 @@ from database.crud import (
 from utils.validators import (
     validate_amount,
     validate_date,
-    validate_transaction_type,
     validate_category,
     validate_description,
 )
@@ -49,7 +48,9 @@ def _render_transaction_list(txns):
     with col1:
         st.subheader(t("subheader_transaction_history"))
     with col2:
-        if st.button(t("btn_add_transaction"), type="primary", use_container_width=True):
+        if st.button(
+            t("btn_add_transaction"), type="primary", use_container_width=True
+        ):
             st.session_state.show_add_form = True
 
     if st.session_state.get("show_add_form") or st.session_state.get("edit_txn"):
@@ -76,9 +77,13 @@ def _render_transaction_list(txns):
                 "ID": None,
                 "Date": st.column_config.TextColumn(t("col_date"), width="small"),
                 "Type": st.column_config.TextColumn(t("col_type"), width="small"),
-                "Category": st.column_config.TextColumn(t("col_category"), width="small"),
+                "Category": st.column_config.TextColumn(
+                    t("col_category"), width="small"
+                ),
                 "Amount": st.column_config.TextColumn(t("col_amount"), width="small"),
-                "Description": st.column_config.TextColumn(t("col_description"), width="medium"),
+                "Description": st.column_config.TextColumn(
+                    t("col_description"), width="medium"
+                ),
             },
             hide_index=True,
             use_container_width=True,
@@ -98,7 +103,9 @@ def _render_transaction_form(txns):
                     t("form_type"),
                     ["income", "expense"],
                     format_func=lambda x: t(x),
-                    index=0 if not editing else (0 if editing["type"] == "income" else 1),
+                    index=0
+                    if not editing
+                    else (0 if editing["type"] == "income" else 1),
                 )
                 amt = st.number_input(
                     t("form_amount"),
@@ -110,15 +117,19 @@ def _render_transaction_form(txns):
 
                 cat_choice = st.selectbox(
                     t("form_existing_category"),
-                    options=categories if categories else [t("no_categories_available")],
-                    index=_find_category_index(categories, editing["category"]) if editing and categories else 0,
+                    options=categories
+                    if categories
+                    else [t("no_categories_available")],
+                    index=_find_category_index(categories, editing["category"])
+                    if editing and categories
+                    else 0,
                     disabled=not categories,
-)
+                )
 
                 new_category = st.text_input(
                     t("form_new_category"),
-                    placeholder=t("form_new_category_placeholder")
-)
+                    placeholder=t("form_new_category_placeholder"),
+                )
 
                 cat_input = new_category.strip() if new_category.strip() else cat_choice
 
@@ -133,12 +144,16 @@ def _render_transaction_form(txns):
                 )
                 desc = st.text_area(
                     t("form_description"),
-                    value=editing["description"] if editing and editing["description"] else "",
+                    value=editing["description"]
+                    if editing and editing["description"]
+                    else "",
                 )
 
             cols = st.columns([1, 1, 2])
             with cols[0]:
-                submitted = st.form_submit_button(t("btn_save"), type="primary", use_container_width=True)
+                submitted = st.form_submit_button(
+                    t("btn_save"), type="primary", use_container_width=True
+                )
             with cols[1]:
                 if st.form_submit_button(t("btn_cancel"), use_container_width=True):
                     st.session_state.pop("show_add_form", None)
@@ -193,11 +208,13 @@ def _render_edit_delete_controls(txns):
     col1, col2 = st.columns(2)
     with col1:
         txn_ids = {
-                        f"#{txn['id']} - {txn['date']} {txn['category']} (${txn['amount']:,.2f})": txn
-                        for txn in txns
-                    }
+            f"#{txn['id']} - {txn['date']} {txn['category']} (${txn['amount']:,.2f})": txn
+            for txn in txns
+        }
         if txn_ids:
-            selected_label = st.selectbox(t("select_transaction_edit_delete"), options=list(txn_ids.keys()))
+            selected_label = st.selectbox(
+                t("select_transaction_edit_delete"), options=list(txn_ids.keys())
+            )
             selected = txn_ids[selected_label]
             if st.button(t("btn_edit_selected")):
                 st.session_state.edit_txn = selected
@@ -238,7 +255,11 @@ def _render_category_management(categories):
         st.write(t("existing_categories"), ", ".join(sorted(categories)))
 
     with st.expander(t("expander_rename_category")):
-        old = st.selectbox(t("select_category_to_rename"), options=categories if categories else [""], key="rename_old")
+        old = st.selectbox(
+            t("select_category_to_rename"),
+            options=categories if categories else [""],
+            key="rename_old",
+        )
         new = st.text_input(t("new_name"), key="rename_new")
         if st.button(t("btn_rename")) and old and new:
             rename_category(old, new)
@@ -246,11 +267,18 @@ def _render_category_management(categories):
             st.rerun()
 
     with st.expander(t("expander_delete_category")):
-        del_cat = st.selectbox(t("select_category_to_delete"), options=categories if categories else [""], key="del_cat")
-        reassign = st.text_input(t("reassign_transactions"), value="Other", key="reassign_cat")
+        del_cat = st.selectbox(
+            t("select_category_to_delete"),
+            options=categories if categories else [""],
+            key="del_cat",
+        )
+        reassign = st.text_input(
+            t("reassign_transactions"), value="Other", key="reassign_cat"
+        )
         if st.button(t("btn_delete_category")) and del_cat:
             delete_category(del_cat, reassign)
             st.success(t("success_deleted_category", cat=del_cat))
             st.rerun()
+
 
 render()

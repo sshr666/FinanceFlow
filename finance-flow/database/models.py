@@ -39,7 +39,13 @@ class Budget(Base):
     limit_amount = Column(Float, nullable=False)
 
     __table_args__ = (
-        UniqueConstraint("user_id", "category", "month", "year", name="uq_budget_user_category_month_year"),
+        UniqueConstraint(
+            "user_id",
+            "category",
+            "month",
+            "year",
+            name="uq_budget_user_category_month_year",
+        ),
     )
 
 

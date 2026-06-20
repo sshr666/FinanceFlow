@@ -21,7 +21,9 @@ def get_current_month_year():
     return now.month, now.year
 
 
-def filter_transactions(txns, start_date=None, end_date=None, category=None, type_=None):
+def filter_transactions(
+    txns, start_date=None, end_date=None, category=None, type_=None
+):
     result = txns
     if start_date:
         result = [t for t in result if t["date"] >= start_date]

@@ -82,7 +82,9 @@ def add_transaction(type, amount, category, date, description=None):
         session.close()
 
 
-def update_transaction(txn_id, type_=None, amount=None, category=None, date=None, description=None):
+def update_transaction(
+    txn_id, type_=None, amount=None, category=None, date=None, description=None
+):
     user_id = _current_user_id()
     session = get_session()
     try:
@@ -359,11 +361,7 @@ def get_all_settings():
     user_id = _current_user_id()
     session = get_session()
     try:
-        rows = (
-            session.query(Settings)
-            .filter(Settings.user_id == user_id)
-            .all()
-        )
+        rows = session.query(Settings).filter(Settings.user_id == user_id).all()
         return {r.key: r.value for r in rows}
     finally:
         session.close()
@@ -390,11 +388,7 @@ def add_review(username, title, content, rating=None):
 def get_all_reviews():
     session = get_session()
     try:
-        reviews = (
-            session.query(Review)
-            .order_by(Review.created_at.desc())
-            .all()
-        )
+        reviews = session.query(Review).order_by(Review.created_at.desc()).all()
         return [
             {
                 "id": r.id,

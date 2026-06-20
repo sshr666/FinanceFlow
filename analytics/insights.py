@@ -1,5 +1,5 @@
 import pandas as pd
-from database.crud import get_all_transactions, get_budgets, get_setting
+from database.crud import get_all_transactions, get_setting
 
 
 def highest_spending_category(txns=None):

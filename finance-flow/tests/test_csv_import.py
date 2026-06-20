@@ -1,4 +1,3 @@
-import pytest
 import pandas as pd
 import io
 
@@ -15,23 +14,32 @@ class TestCSVImport:
             df = pd.read_csv(f)
         for _, row in df.iterrows():
             add_transaction(
-                row["type"].strip().lower(), float(row["amount"]),
-                row["category"].strip(), row["date"].strip(),
-                str(row.get("description", "")).strip() if pd.notna(row.get("description")) else None,
+                row["type"].strip().lower(),
+                float(row["amount"]),
+                row["category"].strip(),
+                row["date"].strip(),
+                str(row.get("description", "")).strip()
+                if pd.notna(row.get("description"))
+                else None,
             )
         txns = get_all_transactions()
         assert len(txns) == 1
 
     def test_invalid_amount_rejected(self, db_session):
-        csv_data = "type,amount,category,date,description\nexpense,-50,Food,2026-01-01,Test\n"
+        csv_data = (
+            "type,amount,category,date,description\nexpense,-50,Food,2026-01-01,Test\n"
+        )
         with self._upload_csv(csv_data) as f:
             df = pd.read_csv(f)
         for _, row in df.iterrows():
             if float(row["amount"]) <= 0:
                 continue
             add_transaction(
-                row["type"].strip().lower(), float(row["amount"]),
-                row["category"].strip(), row["date"].strip(), None,
+                row["type"].strip().lower(),
+                float(row["amount"]),
+                row["category"].strip(),
+                row["date"].strip(),
+                None,
             )
         txns = get_all_transactions()
         assert len(txns) == 0
@@ -41,6 +49,7 @@ class TestCSVImport:
         with self._upload_csv(csv_data) as f:
             df = pd.read_csv(f)
         from utils.validators import validate_date
+
         valid, _ = validate_date(df.iloc[0]["date"])
         assert not valid
 
@@ -61,8 +70,11 @@ class TestCSVImport:
             if float(row["amount"]) <= 0:
                 continue
             add_transaction(
-                row["type"].strip().lower(), float(row["amount"]),
-                row["category"].strip(), row["date"].strip(), None,
+                row["type"].strip().lower(),
+                float(row["amount"]),
+                row["category"].strip(),
+                row["date"].strip(),
+                None,
             )
             imported += 1
         assert imported == 1
