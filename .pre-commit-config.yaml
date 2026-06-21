@@ -51,8 +51,8 @@ repos:
     rev: 1.8.3
     hooks:
       - id: bandit
-        args: [--skip, B101, B311]
-        exclude: ^(tests/|finance-flow/|\.git)
+        args: [--skip, B101,B311]
+        exclude: ^(tests/|finance-flow/|\.git|\.cache|__pycache__/|\.venv/|venv/)
 
   # ── Commit message convention ──────────────────────────────
   - repo: https://github.com/commitizen-tools/commitizen

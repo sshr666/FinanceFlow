@@ -21,6 +21,21 @@ dev = [
     "pytest-cov>=4.0",
 ]
 
+[tool.bandit]
+exclude_dirs = [
+    ".cache",
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "node_modules",
+    "tests",
+    "finance-flow",
+]
+skips = ["B101", "B311"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]

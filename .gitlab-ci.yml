@@ -51,7 +51,7 @@ pytest:
 bandit:
   stage: security
   script:
-    - bandit -r . -x tests/,finance-flow/ -s B101,B311
+    - bandit -r analytics/ config/ database/ pages/ utils/ app.py -s B101,B311
   allow_failure: true
 
 # ── Dead code check ─────────────────────────────────────────
