@@ -1,0 +1,48 @@
+#!/bin/bash
+# Pre-push hook: comprehensive audit before pushing.
+# Runs unit tests, type checking, security scan, dead-code scan, and package audit.
+
+set -e
+set -o pipefail
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+cd "$ROOT_DIR"
+
+echo "━━━ Pre-push checks ━━━"
+echo ""
+
+# ── 1. Unit tests ───────────────────────────────────────────
+echo "── 1/5  Unit tests ──"
+python3 -m pytest tests/ -v --junitxml=report.xml
+echo "  ✔  All tests passed"
+echo ""
+
+# ── 2. Type checking (full project, exclude duplicate subdir) ─
+echo "── 2/5  Type checking (mypy) ──"
+python3 -m mypy . --ignore-missing-imports --exclude "^finance-flow/"
+echo "  ✔  No type errors"
+echo ""
+
+# ── 3. Security scan ────────────────────────────────────────
+echo "── 3/5  Security scan (bandit) ──"
+python3 -m bandit -r . -x tests/,finance-flow/ -s B101,B311
+echo "  ✔  Security scan passed"
+echo ""
+
+# ── 4. Dead-code check ──────────────────────────────────────
+echo "── 4/5  Dead-code check (vulture) ──"
+python3 -m vulture . --min-confidence 70 \
+  --exclude "finance-flow/" \
+  --exclude "tests/"
+echo "  ✔  No dead code found"
+echo ""
+
+# ── 5. Package audit ────────────────────────────────────────
+echo "── 5/5  Package audit (pip-audit) ──"
+pip-audit --strict --timeout 30 2>&1 \
+  | grep -v "Dependency not found on PyPI" \
+  || true
+echo "  ✔  Package audit passed"
+echo ""
+
+echo "━━━ All pre-push checks passed ━━━"

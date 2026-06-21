@@ -102,9 +102,9 @@ def _render_import():
         st.success(t("success_imported", count=imported))
         if errors:
             st.warning(t("warning_import_errors", count=len(errors)))
-            for e in errors:
+            for err in errors:
                 st.markdown(
-                    t("label_import_error_row", row=e["row"], errors=e["errors"])
+                    t("label_import_error_row", row=err["row"], errors=err["errors"])
                 )
 
         if imported > 0:

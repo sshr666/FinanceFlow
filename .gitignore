@@ -28,6 +28,10 @@ venv/
 .DS_Store
 Thumbs.db
 
+# Test reports
+report.xml
+*.junit
+
 # Coverage
 htmlcov/
 .coverage

@@ -1,4 +1,5 @@
 repos:
+  # ── Formatting & basic compliance ──────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -13,16 +14,60 @@ repos:
       - id: detect-private-key
       - id: check-merge-conflict
       - id: debug-statements
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: name-tests-test
+        args: [--pytest-test-first]
+      - id: requirements-txt-fixer
 
+  # ── Python linting + formatting ────────────────────────────
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.4
     hooks:
       - id: ruff
-        args: [--fix]
+        args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
 
+  # ── Type checking ──────────────────────────────────────────
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
+        additional_dependencies:
+          - streamlit>=1.28
+          - pandas>=2.0
+          - plotly>=5.18
+          - sqlalchemy>=2.0
+          - python-dotenv>=1.0
+        files: \.py$
+        exclude: ^finance-flow/
+
+  # ── Security scanning ──────────────────────────────────────
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: [--skip, B101, B311]
+        exclude: ^(tests/|finance-flow/|\.git)
+
+  # ── Commit message convention ──────────────────────────────
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v4.4.1
     hooks:
       - id: commitizen
         stages: [commit-msg]
+
+  # ── Pre-push hooks: tests, audit, dead-code scan ─────────
+  - repo: local
+    hooks:
+      - id: pre-push-checks
+        name: Pre-push checks
+        entry: .githooks/pre-push
+        language: script
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true

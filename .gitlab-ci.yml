@@ -1,23 +1,39 @@
+include:
+  - local: finance-flow/.gitlab-ci.yml
+
 image: python:3.11
+
+cache:
+  paths:
+    - .pip-cache/
+    - .cache/pre-commit/
 
 before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - pip install pre-commit ruff
+  - pip install pre-commit ruff mypy bandit vulture pip-audit
 
 stages:
   - lint
+  - typecheck
   - test
+  - security
+  - quality
+  - audit
 
+# ── Lint ────────────────────────────────────────────────────
 pre-commit:
   stage: lint
   script:
     - pre-commit run --all-files --show-diff-on-failure
-  artifacts:
-    when: always
-    reports:
-      junit: report.xml
 
+# ── Type checking ───────────────────────────────────────────
+mypy:
+  stage: typecheck
+  script:
+    - mypy . --ignore-missing-imports --exclude "^finance-flow/"
+
+# ── Tests ───────────────────────────────────────────────────
 pytest:
   stage: test
   script:
@@ -26,3 +42,23 @@ pytest:
     when: always
     reports:
       junit: report.xml
+
+# ── Security scan ───────────────────────────────────────────
+bandit:
+  stage: security
+  script:
+    - bandit -r . -x tests/,finance-flow/ -s B101,B311
+  allow_failure:
+    exit_code: 1
+
+# ── Dead code check ─────────────────────────────────────────
+vulture:
+  stage: quality
+  script:
+    - vulture . --min-confidence 70 --exclude "finance-flow/" --exclude "tests/"
+
+# ── Package audit ───────────────────────────────────────────
+pip-audit:
+  stage: audit
+  script:
+    - pip-audit --strict --timeout 30

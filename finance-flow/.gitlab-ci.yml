@@ -1,16 +1,7 @@
-image: python:3.11
-
-before_script:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-
-stages:
-  - test
-
-pytest:
+pytest-sub:
   stage: test
   script:
-    - python -m pytest tests/ -v --junitxml=report.xml
+    - cd finance-flow && python -m pytest tests/ -v --junitxml=report.xml
   artifacts:
     when: always
     reports:

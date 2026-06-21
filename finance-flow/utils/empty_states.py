@@ -2,7 +2,7 @@ import streamlit as st
 from config.translations import t
 
 
-def show_empty_state(title, message, cta_label=None, cta_link=None):
+def show_empty_state(title, message, cta_label=None):
     st.markdown("---")
 
     col1, col2, col3 = st.columns([1, 2, 1])

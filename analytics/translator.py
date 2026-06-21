@@ -22,7 +22,7 @@ def get_api_key():
         key = st.secrets.get("SARVAM_API_KEY")
         if key:
             return key
-    except Exception:
+    except (AttributeError, KeyError):
         pass
     return os.getenv("SARVAM_API_KEY")
 
