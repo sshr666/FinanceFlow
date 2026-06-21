@@ -35,7 +35,7 @@ pre-commit:
 mypy:
   stage: typecheck
   script:
-    - mypy . --ignore-missing-imports --exclude "^finance-flow/"
+    - mypy analytics/ config/ database/ pages/ utils/ app.py --ignore-missing-imports
 
 # ── Tests ───────────────────────────────────────────────────
 pytest:
@@ -58,7 +58,7 @@ bandit:
 vulture:
   stage: quality
   script:
-    - vulture . --min-confidence 70 --exclude "finance-flow/" --exclude "tests/"
+    - vulture analytics/ config/ database/ pages/ utils/ app.py --min-confidence 70
 
 # ── Package audit ───────────────────────────────────────────
 pip-audit:

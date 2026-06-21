@@ -29,7 +29,11 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
+        exclude: ^(\.cache|\.venv|venv|__pycache__|\.git|build|dist)/
+        types_or: [python, pyi]
       - id: ruff-format
+        exclude: ^(\.cache|\.venv|venv|__pycache__|\.git|build|dist)/
+        types_or: [python, pyi]
 
   # ── Type checking ──────────────────────────────────────────
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -44,7 +48,7 @@ repos:
           - sqlalchemy>=2.0
           - python-dotenv>=1.0
         files: \.py$
-        exclude: ^finance-flow/
+        exclude: ^(finance-flow/|\.cache/|\.venv/|venv/|__pycache__/|\.git/|build/|dist/)
 
   # ── Security scanning ──────────────────────────────────────
   - repo: https://github.com/PyCQA/bandit
