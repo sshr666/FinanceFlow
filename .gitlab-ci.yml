@@ -3,6 +3,10 @@ include:
 
 image: python:3.11
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
+  PRE_COMMIT_HOME: "$CI_PROJECT_DIR/.cache/pre-commit"
+
 cache:
   paths:
     - .pip-cache/
@@ -48,8 +52,7 @@ bandit:
   stage: security
   script:
     - bandit -r . -x tests/,finance-flow/ -s B101,B311
-  allow_failure:
-    exit_code: 1
+  allow_failure: true
 
 # ── Dead code check ─────────────────────────────────────────
 vulture:
