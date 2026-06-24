@@ -13,9 +13,9 @@ cache:
     - .cache/pre-commit/
 
 before_script:
-  - pip install --upgrade pip
+  - pip install --upgrade pip wheel setuptools
   - pip install -r requirements.txt
-  - pip install pre-commit ruff mypy bandit vulture pip-audit
+  - pip install pre-commit ruff mypy bandit vulture pip-audit pytest pytest-cov
 
 stages:
   - lint
