@@ -131,6 +131,21 @@ def delete_transaction(txn_id):
         session.close()
 
 
+def get_all_categories():
+    user_id = _current_user_id()
+    session = get_session()
+    try:
+        rows = (
+            session.query(Transaction.category)
+            .filter(Transaction.user_id == user_id)
+            .distinct()
+            .all()
+        )
+        return sorted([r[0] for r in rows if r[0]])
+    finally:
+        session.close()
+
+
 def rename_category(old_name, new_name):
     user_id = _current_user_id()
     session = get_session()
