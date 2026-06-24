@@ -24,12 +24,6 @@ def validate_date(date_str):
         return False, t("error_date_format")
 
 
-def validate_transaction_type(type_str):
-    if type_str not in ("income", "expense"):
-        return False, t("error_type_income_expense")
-    return True, type_str
-
-
 def validate_category(category_str):
     if not category_str or not category_str.strip():
         return False, t("error_category_required")

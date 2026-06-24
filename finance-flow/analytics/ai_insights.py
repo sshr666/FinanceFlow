@@ -91,7 +91,7 @@ Keep the response brief, friendly, and under 200 words. Do not use markdown form
         return None, f"Failed to parse Ollama response: {e}"
 
     if lang != "en":
-        translated, t_err = translate(text, lang)
+        translated, _ = translate(text, lang)
         if translated:
             return translated, None
 

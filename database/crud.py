@@ -131,86 +131,6 @@ def delete_transaction(txn_id):
         session.close()
 
 
-def get_transactions_by_date_range(start_date, end_date):
-    user_id = _current_user_id()
-    session = get_session()
-    try:
-        txns = (
-            session.query(Transaction)
-            .filter(
-                Transaction.user_id == user_id,
-                Transaction.date >= start_date,
-                Transaction.date <= end_date,
-            )
-            .order_by(Transaction.date.desc())
-            .all()
-        )
-        return [
-            {
-                "id": t.id,
-                "user_id": t.user_id,
-                "type": t.type,
-                "amount": t.amount,
-                "category": t.category,
-                "description": t.description,
-                "date": t.date,
-                "created_at": t.created_at,
-            }
-            for t in txns
-        ]
-    finally:
-        session.close()
-
-
-def get_transactions_by_category(category):
-    user_id = _current_user_id()
-    session = get_session()
-    try:
-        txns = (
-            session.query(Transaction)
-            .filter(
-                Transaction.user_id == user_id,
-                Transaction.category == category,
-            )
-            .order_by(Transaction.date.desc())
-            .all()
-        )
-        return [
-            {
-                "id": t.id,
-                "user_id": t.user_id,
-                "type": t.type,
-                "amount": t.amount,
-                "category": t.category,
-                "description": t.description,
-                "date": t.date,
-                "created_at": t.created_at,
-            }
-            for t in txns
-        ]
-    finally:
-        session.close()
-
-
-def get_all_categories():
-    user_id = _current_user_id()
-    session = get_session()
-    try:
-        rows = (
-            session.query(Transaction.category)
-            .filter(Transaction.user_id == user_id)
-            .distinct()
-            .all()
-        )
-        return sorted([r[0] for r in rows if r[0]])
-    finally:
-        session.close()
-
-
-def add_category(name):
-    pass
-
-
 def rename_category(old_name, new_name):
     user_id = _current_user_id()
     session = get_session()
@@ -353,16 +273,6 @@ def set_setting(key, value):
             session.add(s)
         session.commit()
         _clear_cache()
-    finally:
-        session.close()
-
-
-def get_all_settings():
-    user_id = _current_user_id()
-    session = get_session()
-    try:
-        rows = session.query(Settings).filter(Settings.user_id == user_id).all()
-        return {r.key: r.value for r in rows}
     finally:
         session.close()
 

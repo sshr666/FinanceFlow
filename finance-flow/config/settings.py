@@ -28,8 +28,3 @@ def get_config_int(key, default=None):
         return int(value)
     except (ValueError, TypeError):
         return int(CONFIG_DEFAULTS.get(key, 0))
-
-
-def get_config_bool(key, default=None):
-    value = get_config(key, default)
-    return str(value).lower() in ("true", "1", "yes")
