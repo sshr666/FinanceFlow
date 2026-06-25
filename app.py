@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="FinanceFlow",
     page_icon="💰",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 apply_theme()
@@ -22,6 +22,29 @@ if "lang" not in st.session_state:
 
 if "user_id" not in st.session_state:
     st.session_state["user_id"] = None
+
+with st.sidebar:
+    st.selectbox(
+        t("lang_label"),
+        options=["en", "hi", "ta"],
+        format_func=lambda x: {
+            "en": t("lang_en"),
+            "hi": t("lang_hi"),
+            "ta": t("lang_ta"),
+        }[x],
+        key="lang",
+    )
+    st.divider()
+
+    if st.session_state["user_id"] is not None:
+        st.caption(
+            t("label_logged_in_as", username=st.session_state.get("username", ""))
+        )
+        if st.button(t("btn_logout"), type="secondary", use_container_width=True):
+            st.session_state["user_id"] = None
+            st.session_state["username"] = None
+            st.session_state.pop("lang", None)
+            st.rerun()
 
 if st.session_state["user_id"] is None:
     st.title(t("page_title_auth"))
@@ -80,27 +103,6 @@ else:
             "pages/reviews.py", title=t("nav_reviews"), icon="⭐"
         ),
     }
-
-    with st.sidebar:
-        st.selectbox(
-            t("lang_label"),
-            options=["en", "hi", "ta"],
-            format_func=lambda x: {
-                "en": t("lang_en"),
-                "hi": t("lang_hi"),
-                "ta": t("lang_ta"),
-            }[x],
-            key="lang",
-        )
-        st.divider()
-        st.caption(
-            t("label_logged_in_as", username=st.session_state.get("username", ""))
-        )
-        if st.button(t("btn_logout"), type="secondary", use_container_width=True):
-            st.session_state["user_id"] = None
-            st.session_state["username"] = None
-            st.session_state.pop("lang", None)
-            st.rerun()
 
     nav = st.navigation(list(pages.values()))
     nav.run()
