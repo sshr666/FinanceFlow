@@ -4,6 +4,7 @@ from datetime import datetime
 
 from database.connection import get_session
 from database.models import User
+from config.translations import t
 
 
 def _hash_password(password, salt=None):
@@ -23,15 +24,15 @@ def _check_password(password, stored):
 
 def signup(username, password):
     if not username or not username.strip():
-        return None, "Username is required."
+        return None, t("error_username_required")
     if not password or len(password) < 4:
-        return None, "Password must be at least 4 characters."
+        return None, t("error_password_length")
 
     session = get_session()
     try:
         existing = session.query(User).filter(User.username == username.strip()).first()
         if existing:
-            return None, "Username already exists."
+            return None, t("error_username_exists")
         user = User(
             username=username.strip(),
             password_hash=_hash_password(password),
@@ -46,15 +47,15 @@ def signup(username, password):
 
 def login(username, password):
     if not username or not password:
-        return None, "Username and password are required."
+        return None, t("error_credentials_required")
 
     session = get_session()
     try:
         user = session.query(User).filter(User.username == username.strip()).first()
         if user is None:
-            return None, "Invalid username or password."
+            return None, t("error_invalid_credentials")
         if not _check_password(password, user.password_hash):
-            return None, "Invalid username or password."
+            return None, t("error_invalid_credentials")
         return user.id, None
     finally:
         session.close()

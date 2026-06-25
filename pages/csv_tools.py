@@ -92,10 +92,7 @@ def _render_import():
 
         writable, write_err = _check_db_writable()
         if not writable:
-            st.error(
-                f"Database is not writable: {write_err}. Cannot import transactions. "
-                f"Please check file permissions or contact support."
-            )
+            st.error(t("error_db_not_writable", error=write_err))
             return
 
         df.columns = df.columns.str.strip().str.lower()

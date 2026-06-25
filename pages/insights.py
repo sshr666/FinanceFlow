@@ -118,19 +118,19 @@ def render():
 
     st.divider()
 
-    st.subheader("🤖 AI Insights")
-    st.caption(
-        "Get AI-powered financial recommendations based on your transaction data. Uses local Ollama."
-    )
+    st.subheader(t("subheader_ai_insights"))
+    st.caption(t("caption_ai_insights"))
 
-    if st.button("✨ Generate AI Insights", type="secondary", use_container_width=True):
+    if st.button(
+        t("btn_generate_ai_insights"), type="secondary", use_container_width=True
+    ):
         lang = st.session_state.get("lang", "en")
-        with st.spinner("Analyzing your transactions with AI..."):
+        with st.spinner(t("spinner_analyzing")):
             insights, error = get_ai_insights(txns, lang=lang)
         if error:
             st.warning(f"⚠️ {error}")
         else:
-            st.success("✅ AI analysis complete!")
+            st.success(t("success_ai_analysis"))
             st.markdown(insights)
 
 

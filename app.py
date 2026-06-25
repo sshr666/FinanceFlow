@@ -24,14 +24,16 @@ if "user_id" not in st.session_state:
     st.session_state["user_id"] = None
 
 if st.session_state["user_id"] is None:
-    st.title("💰 FinanceFlow")
-    tab1, tab2 = st.tabs(["Login", "Sign Up"])
+    st.title(t("page_title_auth"))
+    tab1, tab2 = st.tabs([t("tab_login"), t("tab_signup")])
 
     with tab1:
         with st.form("login_form"):
-            username = st.text_input("Username")
-            password = st.text_input("Password", type="password")
-            if st.form_submit_button("Login", type="primary", use_container_width=True):
+            username = st.text_input(t("form_username"))
+            password = st.text_input(t("form_password"), type="password")
+            if st.form_submit_button(
+                t("btn_login"), type="primary", use_container_width=True
+            ):
                 user_id, err = login(username, password)
                 if err:
                     st.error(err)
@@ -42,10 +44,10 @@ if st.session_state["user_id"] is None:
 
     with tab2:
         with st.form("signup_form"):
-            username = st.text_input("Choose a username")
-            password = st.text_input("Choose a password", type="password")
+            username = st.text_input(t("form_choose_username"))
+            password = st.text_input(t("form_choose_password"), type="password")
             if st.form_submit_button(
-                "Sign Up", type="primary", use_container_width=True
+                t("btn_signup"), type="primary", use_container_width=True
             ):
                 user_id, err = signup(username, password)
                 if err:
@@ -91,8 +93,10 @@ else:
             key="lang",
         )
         st.divider()
-        st.caption(f"Logged in as: {st.session_state.get('username', '')}")
-        if st.button("Logout", type="secondary", use_container_width=True):
+        st.caption(
+            t("label_logged_in_as", username=st.session_state.get("username", ""))
+        )
+        if st.button(t("btn_logout"), type="secondary", use_container_width=True):
             st.session_state["user_id"] = None
             st.session_state["username"] = None
             st.session_state.pop("lang", None)
