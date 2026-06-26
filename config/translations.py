@@ -21,11 +21,11 @@ TRANSLATIONS = {
         "tab_login": "Login",
         "tab_signup": "Sign Up",
         "form_username": "Username",
-        "form_password": "Password",
+        "form_password": "Password",  # nosec B105
         "btn_login": "Login",
         "btn_signup": "Sign Up",
         "form_choose_username": "Choose a username",
-        "form_choose_password": "Choose a password",
+        "form_choose_password": "Choose a password",  # nosec B105
         "label_logged_in_as": "Logged in as: {username}",
         "btn_logout": "Logout",
         # Page titles
@@ -205,7 +205,7 @@ TRANSLATIONS = {
         "error_csv_invalid_date": "Invalid date '{date}'. Use YYYY-MM-DD.",
         # Auth error messages
         "error_username_required": "Username is required.",
-        "error_password_length": "Password must be at least 4 characters.",
+        "error_password_length": "Password must be at least 4 characters.",  # nosec B105
         "error_username_exists": "Username already exists.",
         "error_credentials_required": "Username and password are required.",
         "error_invalid_credentials": "Invalid username or password.",
@@ -251,11 +251,11 @@ TRANSLATIONS = {
         "tab_login": "लॉगिन",
         "tab_signup": "साइन अप",
         "form_username": "उपयोगकर्ता नाम",
-        "form_password": "पासवर्ड",
+        "form_password": "पासवर्ड",  # nosec B105
         "btn_login": "लॉगिन",
         "btn_signup": "साइन अप",
         "form_choose_username": "उपयोगकर्ता नाम चुनें",
-        "form_choose_password": "पासवर्ड चुनें",
+        "form_choose_password": "पासवर्ड चुनें",  # nosec B105
         "label_logged_in_as": "{username} के रूप में लॉग इन",
         "btn_logout": "लॉग आउट",
         "page_title_dashboard": "📊 डैशबोर्ड",
@@ -422,7 +422,7 @@ TRANSLATIONS = {
         "error_csv_missing_date": "'date' कॉलम गायब या खाली।",
         "error_csv_invalid_date": "अमान्य तारीख '{date}'। YYYY-MM-DD का उपयोग करें।",
         "error_username_required": "उपयोगकर्ता नाम आवश्यक है।",
-        "error_password_length": "पासवर्ड कम से कम 4 अक्षर का होना चाहिए।",
+        "error_password_length": "पासवर्ड कम से कम 4 अक्षर का होना चाहिए।",  # nosec B105
         "error_username_exists": "उपयोगकर्ता नाम पहले से मौजूद है।",
         "error_credentials_required": "उपयोगकर्ता नाम और पासवर्ड आवश्यक हैं।",
         "error_invalid_credentials": "गलत उपयोगकर्ता नाम या पासवर्ड।",
@@ -466,11 +466,11 @@ TRANSLATIONS = {
         "tab_login": "లాగిన్",
         "tab_signup": "సైన్ అప్",
         "form_username": "వినియోగదారు పేరు",
-        "form_password": "పాస్‌వర్డ్",
+        "form_password": "పాస్‌వర్డ్",  # nosec B105
         "btn_login": "లాగిన్",
         "btn_signup": "సైన్ అప్",
         "form_choose_username": "వినియోగదారు పేరును ఎంచుకోండి",
-        "form_choose_password": "పాస్‌వర్డ్‌ను ఎంచుకోండి",
+        "form_choose_password": "పాస్‌వర్డ్‌ను ఎంచుకోండి",  # nosec B105
         "label_logged_in_as": "{username}గా లాగిన్ అయ్యారు",
         "btn_logout": "లాగ్ అవుట్",
         "page_title_dashboard": "📊 డాష్‌బోర్డ్",
@@ -637,7 +637,7 @@ TRANSLATIONS = {
         "error_csv_missing_date": "'date' నిలువు వరుస లేదు లేదా ఖాళీగా ఉంది.",
         "error_csv_invalid_date": "చెల్లని తేదీ '{date}'. YYYY-MM-DD ఉపయోగించండి.",
         "error_username_required": "వినియోగదారు పేరు అవసరం.",
-        "error_password_length": "పాస్‌వర్డ్ కనీసం 4 అక్షరాలు ఉండాలి.",
+        "error_password_length": "పాస్‌వర్డ్ కనీసం 4 అక్షరాలు ఉండాలి.",  # nosec B105
         "error_username_exists": "వినియోగదారు పేరు ఇప్పటికే ఉంది.",
         "error_credentials_required": "వినియోగదారు పేరు మరియు పాస్‌వర్డ్ అవసరం.",
         "error_invalid_credentials": "చెల్లని వినియోగదారు పేరు లేదా పాస్‌వర్డ్.",
@@ -681,11 +681,11 @@ TRANSLATIONS = {
         "tab_login": "உள்நுழை",
         "tab_signup": "பதிவு செய்க",
         "form_username": "பயனர் பெயர்",
-        "form_password": "கடவுச்சொல்",
+        "form_password": "கடவுச்சொல்",  # nosec B105
         "btn_login": "உள்நுழை",
         "btn_signup": "பதிவு செய்க",
         "form_choose_username": "பயனர் பெயரைத் தேர்ந்தெடுக்கவும்",
-        "form_choose_password": "கடவுச்சொல்லைத் தேர்ந்தெடுக்கவும்",
+        "form_choose_password": "கடவுச்சொல்லைத் தேர்ந்தெடுக்கவும்",  # nosec B105
         "label_logged_in_as": "{username} ஆக உள்நுழைந்துள்ளீர்கள்",
         "btn_logout": "வெளியேறு",
         "page_title_dashboard": "📊 டாஷ்போர்டு",
@@ -852,7 +852,7 @@ TRANSLATIONS = {
         "error_csv_missing_date": "'date' நெடுவரிசை இல்லை அல்லது காலியாக உள்ளது.",
         "error_csv_invalid_date": "தவறான தேதி '{date}'. YYYY-MM-DD பயன்படுத்தவும்.",
         "error_username_required": "பயனர் பெயர் தேவை.",
-        "error_password_length": "கடவுச்சொல் குறைந்தது 4 எழுத்துகள் இருக்க வேண்டும்.",
+        "error_password_length": "கடவுச்சொல் குறைந்தது 4 எழுத்துகள் இருக்க வேண்டும்.",  # nosec B105
         "error_username_exists": "பயனர் பெயர் ஏற்கனவே உள்ளது.",
         "error_credentials_required": "பயனர் பெயர் மற்றும் கடவுச்சொல் தேவை.",
         "error_invalid_credentials": "தவறான பயனர் பெயர் அல்லது கடவுச்சொல்.",
